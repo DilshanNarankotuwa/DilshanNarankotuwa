@@ -63,31 +63,7 @@ I enjoy projects where:
 
 ---
 
-## 🧰 Tech Stack
 
-### Frontend
-- React (Vite)
-- Tailwind CSS
-- Responsive, state-driven UI
-
-### Backend
-- Node.js (ES Modules)
-- Express
-- REST API design
-- Validation & error handling
-
-### Database
-- PostgreSQL
-- Prisma ORM
-- Relational schema design
-
-### Tools & Environment
-- Git & GitHub
-- Linux / Ubuntu
-- Docker (fundamentals)
-- API testing & debugging tools
-
----
 
 <svg width="100%" height="6" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -99,18 +75,7 @@ I enjoy projects where:
   <rect rx="3" width="100%" height="6" fill="url(#grad2)"/>
 </svg>
 
-## 🚀 Featured Project
 
-### ⚡ GigaHz — Build-Your-Own-PC Platform
-A **full-stack system** focused on:
-- API-driven product management
-- PostgreSQL-backed storage (no hard-coded data)
-- compatibility logic foundations
-- clean separation between frontend & backend
-
-This project reflects how I think about **real products**, not demos.
-
----
 
 ## 🧪 Why My Background Is an Advantage
 Science taught me:
