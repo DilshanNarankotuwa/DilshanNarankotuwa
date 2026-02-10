@@ -41,14 +41,6 @@ Today, I apply that same mindset to building **real software systems** — not j
 
 ---
 
-## 🧠 How I Think (This Matters to Teams)
-- I approach debugging like an experiment: hypothesis → test → result  
-- I care deeply about **data flow**, **edge cases**, and **maintainability**
-- I prefer **clear architecture** over clever shortcuts
-- I build systems assuming *someone else will maintain them*
-
----
-
 ## ⚙️ What I Build
 - REST APIs with predictable behavior
 - PostgreSQL-backed systems with real CRUD logic
@@ -95,24 +87,6 @@ That’s why my code tends to be:
 
 I’m comfortable working where **data, logic, and responsibility intersect**.
 
----
-
-## 🎯 What I’m Focused On
-- growing as a backend / full-stack engineer
-- designing systems, not just pages
-- writing code I won’t regret in 6 months
-- contributing to real production environments
-
----
-
-## 📫 Let’s Connect
-If you’re looking for someone who:
-- understands systems deeply
-- learns fast and thoroughly
-- values clean backend design
-- brings a scientific mindset into software
-- 
----
 📧 Email: narankotuwadilshan@gmail.com  
 🔗 LinkedIn: www.linkedin.com/in/dilshan-narankotuwa-8136a2203
 ---
