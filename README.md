@@ -41,19 +41,7 @@ Today, I apply that same mindset to building **real software systems** — not j
 
 ---
 
-## ⚙️ What I Build
-- REST APIs with predictable behavior
-- PostgreSQL-backed systems with real CRUD logic
-- Backend services that remove hard-coding
-- Full-stack applications designed for extension
 
-I enjoy projects where:
-- logic matters more than visuals
-- mistakes are expensive
-- performance and structure count
-- the backend is the product
-
----
 
 
 # 💻 Tech Stack:
