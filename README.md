@@ -76,7 +76,7 @@ That’s why my code tends to be:
 I’m comfortable working where **data, logic, and responsibility intersect**.
 
 📧 Email: narankotuwadilshan@gmail.com  
-🔗 LinkedIn: www.linkedin.com/in/dilshan-narankotuwa-8136a2203
+🔗 LinkedIn: www.linkedin.com/in/dilshan-narankotuwa
 ---
 
 > I’m not here to chase trends.  
