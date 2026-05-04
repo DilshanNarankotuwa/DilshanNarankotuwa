@@ -6,7 +6,7 @@
 
 <img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=Profile%20Views&color=0e75b6&style=for-the-badge" />
 <img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=Followers&style=for-the-badge&color=blue" />
-<img src="https://img.shields.io/github/stars/DilshanNarankotuwa?affiliations=OWNER&style=for-the-badge&label=Stars&color=yellow" />
+<img src="https://img.shields.io/github/stars/DilshanNarankotuwa?affiliations=OWNER&style=for-the-badge&label=Stars&color=blue" />
 
 <br/><br/>
 
