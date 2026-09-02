@@ -1,140 +1,136 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=900&center=true&vCenter=true&width=950&lines=Dilshan+:+Data+Scientist;Science+%E2%86%92+Data+%E2%86%92+Real+World+Impact;Python+%7C+Machine+Learning+%7C+SQL+%7C+Analytics;Turning+Data+Into+Decisions." />
+```
+$ whoami
+```
 
-<br/><br/>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=26&duration=3000&pause=800&color=00FF41&center=true&vCenter=true&width=940&lines=Dilshan+Narankotuwa;Data+Scientist+%7C+ML+Engineer;Chemistry+%E2%86%92+Data+%E2%86%92+Impact;Turning+Noise+Into+Signal.;sudo+make+decisions+--data-driven" alt="Typing SVG" />
 
-<img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=Profile%20Views&color=0e75b6&style=for-the-badge" />
-<img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=Followers&style=for-the-badge&color=blue" />
-<img src="https://img.shields.io/github/stars/DilshanNarankotuwa?affiliations=OWNER&style=for-the-badge&label=Stars&color=blue" />
+<br/>
 
-<br/><br/>
-
-<img src="https://img.shields.io/badge/Role-Data%20Scientist-informational" />
-<img src="https://img.shields.io/badge/Focus-ML%20%26%20Analytics-blue" />
-<img src="https://img.shields.io/badge/Background-Science%20Driven-2ea44f" />
-<img src="https://img.shields.io/badge/Mindset-Problem%20Solver-8A2BE2" />
+![Terminal Line](https://img.shields.io/badge/-000000?style=for-the-badge&logo=gnu-bash&logoColor=00FF41)
+<img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=visitors&color=00FF41&style=for-the-badge&labelColor=000000" />
+<img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=followers&style=for-the-badge&color=00FF41&labelColor=000000" />
 
 </div>
 
----
+<br/>
 
-## 👋 Who I Am
+```bash
+$ cat about_me.txt
+```
 
-I’m a **science-trained data professional** focused on solving real-world problems using **data science, machine learning, and analytical thinking**.
+> A science-trained data scientist who treats every problem like an experiment:
+> form a hypothesis, test it against the data, and trust the evidence over the story
+> you wanted to be true.
+>
+> Background in Chemistry + computational research → now building models,
+> pipelines, and insights that hold up outside the notebook.
 
-My background in **Chemistry, research workflows, and computational systems** trained me to think in terms of:
+```bash
+$ echo $PHILOSOPHY
+```
 
-✔ precision  
-✔ evidence-based reasoning  
-✔ structured experimentation  
-✔ reproducibility  
-✔ logical decision-making  
+```diff
+- I don't build dashboards for the sake of dashboards.
++ I build systems that change what someone decides to do next.
+```
 
-Today, I apply that same mindset to building **predictive models, data pipelines, and business-driven insights**.
+<br/>
 
-> I don’t use data to create dashboards only.  
-> I use data to **solve problems and drive decisions**.
+<details>
+<summary><b>$ ls -la ./skills/</b> — click to expand</summary>
+<br/>
 
----
+**Languages & Core**
+![Python](https://img.shields.io/badge/-Python-000000?style=flat-square&logo=python&logoColor=00FF41)
+![SQL](https://img.shields.io/badge/-SQL-000000?style=flat-square&logo=postgresql&logoColor=00FF41)
+![R](https://img.shields.io/badge/-R-000000?style=flat-square&logo=r&logoColor=00FF41)
 
-## 📊 GitHub Analytics
+**Machine Learning**
+![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-000000?style=flat-square&logo=scikit-learn&logoColor=00FF41)
+![TensorFlow](https://img.shields.io/badge/-TensorFlow-000000?style=flat-square&logo=tensorflow&logoColor=00FF41)
+![XGBoost](https://img.shields.io/badge/-XGBoost-000000?style=flat-square&logoColor=00FF41)
+
+**Data & Tools**
+![Pandas](https://img.shields.io/badge/-Pandas-000000?style=flat-square&logo=pandas&logoColor=00FF41)
+![NumPy](https://img.shields.io/badge/-NumPy-000000?style=flat-square&logo=numpy&logoColor=00FF41)
+![Jupyter](https://img.shields.io/badge/-Jupyter-000000?style=flat-square&logo=jupyter&logoColor=00FF41)
+![Git](https://img.shields.io/badge/-Git-000000?style=flat-square&logo=git&logoColor=00FF41)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-000000?style=flat-square&logo=postgresql&logoColor=00FF41)
+
+</details>
+
+<details>
+<summary><b>$ cat current_focus.log</b> — click to expand</summary>
+<br/>
+
+```
+[ACTIVE]   Predictive modeling & feature engineering
+[ACTIVE]   Statistical analysis for decision support
+[LEARNING] Model deployment & MLOps fundamentals
+[LEARNING] Advanced analytics / applied AI
+[QUEUED]   Contributing to open-source ML tooling
+```
+
+</details>
+
+<details>
+<summary><b>$ ls -la ./projects/</b> — click to expand (placeholders — swap in real repos)</summary>
+<br/>
+
+| Project | What it does | Stack |
+|---|---|---|
+| [`project-one`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | Python · scikit-learn |
+| [`project-two`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | SQL · Pandas |
+| [`project-three`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | TensorFlow |
+
+*(Replace these three rows with real repo links + real one-liners — that swap alone will do more for this README than any redesign.)*
+
+</details>
+
+<br/>
+
+```bash
+$ git log --stats --author="Dilshan"
+```
+
+<div align="center">
+<img height="165" src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&theme=chartreuse-dark&hide_border=true&bg_color=0d1117&title_color=00FF41&icon_color=00FF41&text_color=c9d1d9" />
+<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&theme=chartreuse-dark&hide_border=true&bg_color=0d1117&title_color=00FF41&text_color=c9d1d9" />
+</div>
+
+<div align="center">
+<img src="https://streak-stats.demolab.com?user=DilshanNarankotuwa&theme=dark&hide_border=true&background=0D1117&ring=00FF41&fire=00FF41&currStreakLabel=00FF41" />
+</div>
+
+<div align="center">
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=DilshanNarankotuwa&bg_color=0D1117&color=00FF41&line=00FF41&point=FFFFFF&hide_border=true&area=true" />
+</div>
+
+<br/>
+
+```bash
+$ cat contact.sh
+```
+
+```bash
+#!/bin/bash
+EMAIL="narankotuwadilshan@gmail.com"
+LINKEDIN="linkedin.com/in/dilshan-narankotuwa"
+echo "Open to data science / ML roles & collaboration → reach out anytime."
+```
 
 <div align="center">
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&theme=tokyonight&hide_border=true" />
+[![Email](https://img.shields.io/badge/-Email-000000?style=for-the-badge&logo=gmail&logoColor=00FF41)](mailto:narankotuwadilshan@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=00FF41)](https://www.linkedin.com/in/dilshan-narankotuwa)
 
-<br/><br/>
+<br/>
 
-<img src="https://streak-stats.demolab.com?user=DilshanNarankotuwa&theme=tokyonight&hide_border=true" />
-
-</div>
-
----
-
-## 🧠 What Makes Me Valuable
-
-Science taught me:
-
-✔ patience with complexity  
-✔ data-driven thinking  
-✔ hypothesis testing mindset  
-✔ accuracy under uncertainty  
-✔ disciplined problem solving  
-
-That’s why my work tends to be:
-
-✔ analytical  
-✔ structured  
-✔ interpretable  
-✔ business-oriented  
-✔ scalable  
-
-I’m comfortable working where **data, logic, and impact intersect**.
-
----
-
-## 💻 Data Science Stack
-
-### Programming
-![Python](https://img.shields.io/badge/python-3670A0?style=plastic&logo=python&logoColor=ffdd54)
-![SQL](https://img.shields.io/badge/SQL-025E8C?style=plastic)
-![R](https://img.shields.io/badge/r-%23276DC3.svg?style=plastic&logo=r&logoColor=white)
-
-### Machine Learning
-![Scikit Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=plastic&logo=scikit-learn&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=plastic&logo=tensorflow&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-EC6B23?style=plastic)
-![Statistics](https://img.shields.io/badge/Statistics-00599C?style=plastic)
-
-### Data Analysis
-![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=plastic&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=plastic&logo=numpy&logoColor=white)
-![SciPy](https://img.shields.io/badge/SciPy-%230C55A5.svg?style=plastic&logo=scipy&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=plastic&logo=Matplotlib&logoColor=black)
-![Seaborn](https://img.shields.io/badge/Seaborn-0099cc?style=plastic)
-
-### Database & Tools
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=plastic&logo=postgresql&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-07405e?style=plastic&logo=sqlite&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=plastic&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=plastic&logo=github&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=plastic&logo=Jupyter&logoColor=white)
-
----
-
-## 🚀 Current Focus
-
-✔ Machine Learning Projects  
-✔ Predictive Modeling  
-✔ Data Cleaning & Feature Engineering  
-✔ Statistical Analysis  
-✔ Model Deployment  
-✔ AI & Advanced Analytics Growth Path  
-
----
-
-## 📈 Contribution Graph
-
-<div align="center">
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=DilshanNarankotuwa&theme=tokyo-night&hide_border=true&area=true" />
+```
+$ exit
+process finished with exit code 0
+```
 
 </div>
-
----
-
-## 🌐 Connect With Me
-
-📧 Email: **narankotuwadilshan@gmail.com**  
-🔗 LinkedIn: **www.linkedin.com/in/dilshan-narankotuwa**
-
----
-
-<div align="center">
-
-### ⚡ Transforming Data Into Decisions
-
-</div>
-
