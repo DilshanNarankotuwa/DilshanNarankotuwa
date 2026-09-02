@@ -1,136 +1,116 @@
 <div align="center">
-
-```
-$ whoami
-```
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=26&duration=3000&pause=800&color=00FF41&center=true&vCenter=true&width=940&lines=Dilshan+Narankotuwa;Data+Scientist+%7C+ML+Engineer;Chemistry+%E2%86%92+Data+%E2%86%92+Impact;Turning+Noise+Into+Signal.;sudo+make+decisions+--data-driven" alt="Typing SVG" />
+  <img src="./hero-banner.svg" width="100%" alt="Dilshan Narankotuwa" />
+</div>
 
 <br/>
 
-![Terminal Line](https://img.shields.io/badge/-000000?style=for-the-badge&logo=gnu-bash&logoColor=00FF41)
-<img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=visitors&color=00FF41&style=for-the-badge&labelColor=000000" />
-<img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=followers&style=for-the-badge&color=00FF41&labelColor=000000" />
+<table width="100%">
+<tr>
+<td width="64%" valign="top">
+
+### `scan_result.log`
+
+```
+[INFO]  subject............ chemistry degree, repurposed
+[INFO]  current role....... Data Scientist @ SpectrifyAI
+[INFO]  input signal....... near-infrared reflectance, 900–1700nm
+[INFO]  output.............. polyphenols · theaflavin · caffeine · moisture
+[INFO]  deployment target... handheld spectrometers, multi-device fleet
+[OK]    validation......... repeated stratified CV, group-aware splits
+[OK]    honesty check...... reports the real ceiling, not the flattering one
+[STATUS] seeking............ data science roles, Europe
+```
+
+I didn't start in code — I started in a lab, running the same reaction until I trusted the result. That instinct — *don't believe a number until you've tried to break it* — is the whole reason my models tend to survive contact with production.
+
+At **SpectrifyAI**, I build the pipeline that sits between a handheld NIR scanner and a lab-grade answer: point it at a tea leaf, and somewhere behind the scene a model I built and stress-tested is turning a reflectance curve into a chemistry result that used to take a full day in a wet lab.
+
+</td>
+<td width="36%" valign="top">
+
+**◆ instrument panel**
+
+```yaml
+role:      Data Scientist
+company:   SpectrifyAI
+degree:    BSc (Hons) Chemistry
+           Univ. of Sri Jayewardenepura
+based:     Sri Lanka
+seeking:   EU-based DS roles
+```
+
+**◆ signal out**
+<br/>
+[LinkedIn ↗](https://www.linkedin.com/in/dilshan-narankotuwa) · [Email ↗](mailto:narankotuwadilshan@gmail.com)
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+  <img src="./skills-panel.svg" width="100%" alt="skills" />
+</div>
+
+<br/>
+
+## on the bench right now
+
+<table width="100%">
+<tr>
+<td width="50%" valign="top">
+
+> **🍃 spectrum → chemistry**
+> Chemometric preprocessing — MSC, SNV, Savitzky-Golay derivatives — feeding GPR, GBR, and deep MLP ensembles, tuned against a real, honestly-reported data ceiling.
+
+> **🔁 one model, many devices**
+> Piecewise Direct Standardization for calibration transfer, so a model trained on one handheld unit stays accurate on the next four off the line.
+
+</td>
+<td width="50%" valign="top">
+
+> **📦 past `.fit()`**
+> Production joblib bundles, standalone inference scripts, deployment docs a dev team can pick up without me in the room.
+
+> **🛠️ off the clock**
+> Home server + Raspberry Pi builds, a self-taught deep learning foundation, a terminal-themed personal site.
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+## the method, in order
+
+```
+1. hypothesize   →  what should this domain predict, before touching data
+2. instrument    →  preprocessing chosen for the physics of the signal, not habit
+3. validate      →  repeated stratified CV, group-aware splits, zero leakage
+4. stress-test   →  try to beat your own model with every method you know
+5. report        →  the honest ceiling, never the flattering number
+6. deploy        →  a model nobody has to reverse-engineer to use
+```
+
+<br/>
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&hide_border=true&bg_color=05070d&title_color=38bdf8&text_color=94a3b8&icon_color=7c3aed&border_radius=8" height="165"/>
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&hide_border=true&bg_color=05070d&title_color=38bdf8&text_color=94a3b8&border_radius=8" height="165"/>
+
+<br/><br/>
+
+<!-- Contribution snake — animates your real commit graph, regenerated daily by GitHub Actions. Setup below. -->
+<img src="https://raw.githubusercontent.com/DilshanNarankotuwa/DilshanNarankotuwa/output/github-contribution-grid-snake-dark.svg" width="100%" alt="contribution snake"/>
 
 </div>
 
 <br/>
 
-```bash
-$ cat about_me.txt
-```
-
-> A science-trained data scientist who treats every problem like an experiment:
-> form a hypothesis, test it against the data, and trust the evidence over the story
-> you wanted to be true.
->
-> Background in Chemistry + computational research → now building models,
-> pipelines, and insights that hold up outside the notebook.
-
-```bash
-$ echo $PHILOSOPHY
-```
-
-```diff
-- I don't build dashboards for the sake of dashboards.
-+ I build systems that change what someone decides to do next.
-```
-
-<br/>
-
-<details>
-<summary><b>$ ls -la ./skills/</b> - click to expand</summary>
-<br/>
-
-**Languages & Core**
-![Python](https://img.shields.io/badge/-Python-000000?style=flat-square&logo=python&logoColor=00FF41)
-![SQL](https://img.shields.io/badge/-SQL-000000?style=flat-square&logo=postgresql&logoColor=00FF41)
-![R](https://img.shields.io/badge/-R-000000?style=flat-square&logo=r&logoColor=00FF41)
-
-**Machine Learning**
-![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-000000?style=flat-square&logo=scikit-learn&logoColor=00FF41)
-![TensorFlow](https://img.shields.io/badge/-TensorFlow-000000?style=flat-square&logo=tensorflow&logoColor=00FF41)
-![XGBoost](https://img.shields.io/badge/-XGBoost-000000?style=flat-square&logoColor=00FF41)
-
-**Data & Tools**
-![Pandas](https://img.shields.io/badge/-Pandas-000000?style=flat-square&logo=pandas&logoColor=00FF41)
-![NumPy](https://img.shields.io/badge/-NumPy-000000?style=flat-square&logo=numpy&logoColor=00FF41)
-![Jupyter](https://img.shields.io/badge/-Jupyter-000000?style=flat-square&logo=jupyter&logoColor=00FF41)
-![Git](https://img.shields.io/badge/-Git-000000?style=flat-square&logo=git&logoColor=00FF41)
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-000000?style=flat-square&logo=postgresql&logoColor=00FF41)
-
-</details>
-
-<details>
-<summary><b>$ cat current_focus.log</b> - click to expand</summary>
-<br/>
-
-```
-[ACTIVE]   Predictive modeling & feature engineering
-[ACTIVE]   Statistical analysis for decision support
-[LEARNING] Model deployment & MLOps fundamentals
-[LEARNING] Advanced analytics / applied AI
-[QUEUED]   Contributing to open-source ML tooling
-```
-
-</details>
-
-<details>
-<summary><b>$ ls -la ./projects/</b> - click to expand (placeholders - swap in real repos)</summary>
-<br/>
-
-| Project | What it does | Stack |
-|---|---|---|
-| [`project-one`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | Python · scikit-learn |
-| [`project-two`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | SQL · Pandas |
-| [`project-three`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | TensorFlow |
-
-*(Replace these three rows with real repo links + real one-liners - that swap alone will do more for this README than any redesign.)*
-
-</details>
-
-<br/>
-
-```bash
-$ git log --stats --author="Dilshan"
-```
-
-<div align="center">
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&theme=chartreuse-dark&hide_border=true&bg_color=0d1117&title_color=00FF41&icon_color=00FF41&text_color=c9d1d9" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&theme=chartreuse-dark&hide_border=true&bg_color=0d1117&title_color=00FF41&text_color=c9d1d9" />
-</div>
-
-<div align="center">
-<img src="https://streak-stats.demolab.com?user=DilshanNarankotuwa&theme=dark&hide_border=true&background=0D1117&ring=00FF41&fire=00FF41&currStreakLabel=00FF41" />
-</div>
-
-<div align="center">
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=DilshanNarankotuwa&bg_color=0D1117&color=00FF41&line=00FF41&point=FFFFFF&hide_border=true&area=true" />
-</div>
-
-<br/>
-
-```bash
-$ cat contact.sh
-```
-
-```bash
-#!/bin/bash
-EMAIL="narankotuwadilshan@gmail.com"
-LINKEDIN="linkedin.com/in/dilshan-narankotuwa"
-echo "Open to data science / ML roles & collaboration → reach out anytime."
-```
-
 <div align="center">
 
-[![Email](https://img.shields.io/badge/-Email-000000?style=for-the-badge&logo=gmail&logoColor=00FF41)](mailto:narankotuwadilshan@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=00FF41)](https://www.linkedin.com/in/dilshan-narankotuwa)
-
-<br/>
-
-```
-$ exit
-process finished with exit code 0
-```
+*building ML for physical and scientific systems — say hello if you're doing the same, or hiring for it.*
 
 </div>
