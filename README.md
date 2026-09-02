@@ -39,7 +39,7 @@ $ echo $PHILOSOPHY
 <br/>
 
 <details>
-<summary><b>$ ls -la ./skills/</b> — click to expand</summary>
+<summary><b>$ ls -la ./skills/</b> - click to expand</summary>
 <br/>
 
 **Languages & Core**
@@ -62,7 +62,7 @@ $ echo $PHILOSOPHY
 </details>
 
 <details>
-<summary><b>$ cat current_focus.log</b> — click to expand</summary>
+<summary><b>$ cat current_focus.log</b> - click to expand</summary>
 <br/>
 
 ```
@@ -76,7 +76,7 @@ $ echo $PHILOSOPHY
 </details>
 
 <details>
-<summary><b>$ ls -la ./projects/</b> — click to expand (placeholders — swap in real repos)</summary>
+<summary><b>$ ls -la ./projects/</b> - click to expand (placeholders - swap in real repos)</summary>
 <br/>
 
 | Project | What it does | Stack |
@@ -85,7 +85,7 @@ $ echo $PHILOSOPHY
 | [`project-two`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | SQL · Pandas |
 | [`project-three`](https://github.com/DilshanNarankotuwa) | One-line description of the problem it solves | TensorFlow |
 
-*(Replace these three rows with real repo links + real one-liners — that swap alone will do more for this README than any redesign.)*
+*(Replace these three rows with real repo links + real one-liners - that swap alone will do more for this README than any redesign.)*
 
 </details>
 
