@@ -1,116 +1,139 @@
 <div align="center">
-  <img src="./hero-banner.svg" width="100%" alt="Dilshan Narankotuwa" />
-</div>
 
-<br/>
-
-<table width="100%">
-<tr>
-<td width="64%" valign="top">
-
-### `scan_result.log`
-
-```
-[INFO]  subject............ chemistry degree, repurposed
-[INFO]  current role....... Data Scientist @ SpectrifyAI
-[INFO]  input signal....... near-infrared reflectance, 900–1700nm
-[INFO]  output.............. polyphenols · theaflavin · caffeine · moisture
-[INFO]  deployment target... handheld spectrometers, multi-device fleet
-[OK]    validation......... repeated stratified CV, group-aware splits
-[OK]    honesty check...... reports the real ceiling, not the flattering one
-[STATUS] seeking............ data science roles, Europe
-```
-
-I didn't start in code — I started in a lab, running the same reaction until I trusted the result. That instinct — *don't believe a number until you've tried to break it* — is the whole reason my models tend to survive contact with production.
-
-At **SpectrifyAI**, I build the pipeline that sits between a handheld NIR scanner and a lab-grade answer: point it at a tea leaf, and somewhere behind the scene a model I built and stress-tested is turning a reflectance curve into a chemistry result that used to take a full day in a wet lab.
-
-</td>
-<td width="36%" valign="top">
-
-**◆ instrument panel**
-
-```yaml
-role:      Data Scientist
-company:   SpectrifyAI
-degree:    BSc (Hons) Chemistry
-           Univ. of Sri Jayewardenepura
-based:     Sri Lanka
-seeking:   EU-based DS roles
-```
-
-**◆ signal out**
-<br/>
-[LinkedIn ↗](https://www.linkedin.com/in/dilshan-narankotuwa) · [Email ↗](mailto:narankotuwadilshan@gmail.com)
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-  <img src="./skills-panel.svg" width="100%" alt="skills" />
-</div>
-
-<br/>
-
-## on the bench right now
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-
-> **🍃 spectrum → chemistry**
-> Chemometric preprocessing — MSC, SNV, Savitzky-Golay derivatives — feeding GPR, GBR, and deep MLP ensembles, tuned against a real, honestly-reported data ceiling.
-
-> **🔁 one model, many devices**
-> Piecewise Direct Standardization for calibration transfer, so a model trained on one handheld unit stays accurate on the next four off the line.
-
-</td>
-<td width="50%" valign="top">
-
-> **📦 past `.fit()`**
-> Production joblib bundles, standalone inference scripts, deployment docs a dev team can pick up without me in the room.
-
-> **🛠️ off the clock**
-> Home server + Raspberry Pi builds, a self-taught deep learning foundation, a terminal-themed personal site.
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-## the method, in order
-
-```
-1. hypothesize   →  what should this domain predict, before touching data
-2. instrument    →  preprocessing chosen for the physics of the signal, not habit
-3. validate      →  repeated stratified CV, group-aware splits, zero leakage
-4. stress-test   →  try to beat your own model with every method you know
-5. report        →  the honest ceiling, never the flattering number
-6. deploy        →  a model nobody has to reverse-engineer to use
-```
-
-<br/>
-
-<div align="center">
-
-<img src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&hide_border=true&bg_color=05070d&title_color=38bdf8&text_color=94a3b8&icon_color=7c3aed&border_radius=8" height="165"/>
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&hide_border=true&bg_color=05070d&title_color=38bdf8&text_color=94a3b8&border_radius=8" height="165"/>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=900&center=true&vCenter=true&width=950&lines=Dilshan+:+Data+Scientist;Science+%E2%86%92+Data+%E2%86%92+Real+World+Impact;Python+%7C+Machine+Learning+%7C+SQL+%7C+Analytics;Turning+Data+Into+Decisions." />
 
 <br/><br/>
 
-<!-- Contribution snake — animates your real commit graph, regenerated daily by GitHub Actions. Setup below. -->
-<img src="https://raw.githubusercontent.com/DilshanNarankotuwa/DilshanNarankotuwa/output/github-contribution-grid-snake-dark.svg" width="100%" alt="contribution snake"/>
+<img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=Profile%20Views&color=0e75b6&style=for-the-badge" />
+<img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=Followers&style=for-the-badge&color=blue" />
+<img src="https://img.shields.io/github/stars/DilshanNarankotuwa?affiliations=OWNER&style=for-the-badge&label=Stars&color=blue" />
+
+<br/><br/>
+
+<img src="https://img.shields.io/badge/Role-Data%20Scientist-informational" />
+<img src="https://img.shields.io/badge/Focus-ML%20%26%20Analytics-blue" />
+<img src="https://img.shields.io/badge/Background-Science%20Driven-2ea44f" />
+<img src="https://img.shields.io/badge/Mindset-Problem%20Solver-8A2BE2" />
 
 </div>
 
-<br/>
+---
+
+## 👋 Who I Am
+
+I’m a **science-trained data professional** focused on solving real-world problems using **data science, machine learning, and analytical thinking**.
+
+My background in **Chemistry, research workflows, and computational systems** trained me to think in terms of:
+
+✔ precision  
+✔ evidence-based reasoning  
+✔ structured experimentation  
+✔ reproducibility  
+✔ logical decision-making  
+
+Today, I apply that same mindset to building **predictive models, data pipelines, and business-driven insights**.
+
+> I don’t use data to create dashboards only.  
+> I use data to **solve problems and drive decisions**.
+
+---
+
+## 📊 GitHub Analytics
 
 <div align="center">
 
-*building ML for physical and scientific systems — say hello if you're doing the same, or hiring for it.*
+<img height="170" src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" />
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&theme=tokyonight&hide_border=true" />
+
+<br/><br/>
+
+<img src="https://streak-stats.demolab.com?user=DilshanNarankotuwa&theme=tokyonight&hide_border=true" />
+
+</div>
+
+---
+
+## 🧠 What Makes Me Valuable
+
+Science taught me:
+
+✔ patience with complexity  
+✔ data-driven thinking  
+✔ hypothesis testing mindset  
+✔ accuracy under uncertainty  
+✔ disciplined problem solving  
+
+That’s why my work tends to be:
+
+✔ analytical  
+✔ structured  
+✔ interpretable  
+✔ business-oriented  
+✔ scalable  
+
+I’m comfortable working where **data, logic, and impact intersect**.
+
+---
+
+## 💻 Data Science Stack
+
+### Programming
+![Python](https://img.shields.io/badge/python-3670A0?style=plastic&logo=python&logoColor=ffdd54)
+![SQL](https://img.shields.io/badge/SQL-025E8C?style=plastic)
+![R](https://img.shields.io/badge/r-%23276DC3.svg?style=plastic&logo=r&logoColor=white)
+
+### Machine Learning
+![Scikit Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=plastic&logo=scikit-learn&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=plastic&logo=tensorflow&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-EC6B23?style=plastic)
+![Statistics](https://img.shields.io/badge/Statistics-00599C?style=plastic)
+
+### Data Analysis
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=plastic&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=plastic&logo=numpy&logoColor=white)
+![SciPy](https://img.shields.io/badge/SciPy-%230C55A5.svg?style=plastic&logo=scipy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=plastic&logo=Matplotlib&logoColor=black)
+![Seaborn](https://img.shields.io/badge/Seaborn-0099cc?style=plastic)
+
+### Database & Tools
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=plastic&logo=postgresql&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405e?style=plastic&logo=sqlite&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=plastic&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=plastic&logo=github&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=plastic&logo=Jupyter&logoColor=white)
+
+---
+
+## 🚀 Current Focus
+
+✔ Machine Learning Projects  
+✔ Predictive Modeling  
+✔ Data Cleaning & Feature Engineering  
+✔ Statistical Analysis  
+✔ Model Deployment  
+✔ AI & Advanced Analytics Growth Path  
+
+---
+
+## 📈 Contribution Graph
+
+<div align="center">
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=DilshanNarankotuwa&theme=tokyo-night&hide_border=true&area=true" />
+
+</div>
+
+---
+
+## 🌐 Connect With Me
+
+📧 Email: **narankotuwadilshan@gmail.com**  
+🔗 LinkedIn: **www.linkedin.com/in/dilshan-narankotuwa**
+
+---
+
+<div align="center">
+
+### ⚡ Transforming Data Into Decisions
 
 </div>
