@@ -1,68 +1,51 @@
 {
   "username": "DilshanNarankotuwa",
   "name": "Dilshan Narankotuwa",
-  "name_lines": [
-    {"text": "DILSHAN", "size": 150},
-    {"text": "NARANKOTUWA", "size": 100}
+  "title": "Data Scientist",
+  "statement": "Machine learning, statistics and production-ready Python.",
+  "facts": [
+    ["CURRENT ROLE", "Data Science Intern, SpectrifyAI"],
+    ["EDUCATION", "Chemistry, University of Sri Jayewardenepura"]
   ],
-  "dot_spacing": 8.5,
-  "dot_max_width": 860,
-  "code": "plt.scatter(*dilshan.T, c=skill)",
-  "colorbar_label": "skill",
-  "title": "DATA SCIENTIST",
-  "subtitle": "machine learning  /  deep learning  /  statistics  /  python",
   "buttons": [
-    {"file": "btn-email.svg", "label": "Email", "icon": "mail", "colors": ["rose", "orange"]},
-    {"file": "btn-linkedin.svg", "label": "LinkedIn", "icon": "linkedin", "colors": ["cyan", "blue"]},
-    {"file": "btn-portfolio.svg", "label": "Portfolio", "icon": "web", "colors": ["violet", "fuchsia"]}
+    {"file": "btn-email.svg", "label": "Email", "icon": "mail"},
+    {"file": "btn-linkedin.svg", "label": "LinkedIn", "icon": "linkedin"},
+    {"file": "btn-portfolio.svg", "label": "Portfolio", "icon": "web"}
   ],
-  "cards": [
-    {"file": "card-spectrifyai.svg", "badge": "Data science intern", "accent": "cyan",
-     "title": ["SpectrifyAI"], "lines": ["ML models that predict", "tea chemistry, plus a", "RAG knowledge assistant"],
-     "viz": "ensemble", "tags": [["Python", "lang"], ["Ensembles", "ml"], ["Calibration transfer", "stats"], ["RAG", "ai"]]},
-    {"file": "card-laptop.svg", "badge": "R\u00b2 0.78", "accent": "green",
-     "title": ["Laptop Price", "Predictor"], "lines": ["Random forest tuned with", "grid search, served by Flask"],
-     "viz": "scatter", "tags": [["scikit-learn", "ml"], ["Random forest", "ml"], ["Flask", "eng"]]},
-    {"file": "card-galaxy.svg", "badge": "Thesis", "accent": "pink",
-     "title": ["Galaxy Bridge", "Tool"], "lines": ["Docks a molecule library", "in parallel"],
-     "viz": "bars", "tags": [["RDKit", "sci"], ["AutoDock Vina", "sci"], ["multiprocessing", "lang"]]},
-    {"file": "card-gigahz.svg", "badge": "80+ stars", "accent": "yellow",
-     "title": ["GigaHz"], "lines": ["PC builder that blocks", "incompatible parts"],
-     "viz": "graph", "tags": [["React", "eng"], ["Express", "eng"], ["PostgreSQL", "data"]]}
+  "experience": {
+    "company": "SpectrifyAI",
+    "role": "Data Science Intern",
+    "period": "Jun 2026 to present",
+    "points": [
+      "Machine learning models that predict tea chemistry from sensor data",
+      "Calibration transfer so one model works across many devices",
+      "RAG knowledge assistant fed by an automated daily data pipeline"
+    ],
+    "tags": ["Python", "Ensemble models", "Calibration transfer", "RAG", "Supabase pgvector", "GitHub Actions"]
+  },
+  "projects": [
+    {"file": "card-laptop.svg", "category": "MACHINE LEARNING", "title": "Laptop Price Predictor",
+     "lines": ["Compared four regressors on 1,303 laptops,", "tuned a random forest, served it with Flask."],
+     "metric": "0.78", "metric_label": "R\u00b2 on held-out data",
+     "tags": ["scikit-learn", "Random forest", "GridSearchCV", "Flask"]},
+    {"file": "card-galaxy.svg", "category": "SCIENTIFIC COMPUTING", "title": "Galaxy Bridge Tool",
+     "lines": ["Docks a whole molecule library in parallel", "and ranks the best poses. Thesis tool."],
+     "metric": "All cores", "metric_label": "parallel docking",
+     "tags": ["Python", "RDKit", "AutoDock Vina", "multiprocessing"]},
+    {"file": "card-gigahz.svg", "category": "FULL STACK", "title": "GigaHz",
+     "lines": ["PC builder that checks every part against", "hardware rules before you can buy it."],
+     "metric": "80+", "metric_label": "GitHub stars",
+     "tags": ["React", "Express", "PostgreSQL", "Vercel"]},
+    {"file": "card-pi.svg", "category": "HARDWARE", "title": "Pi Machine",
+     "lines": ["Raspberry Pi 5 tablet that docks into a", "briefcase laptop, built to run my thesis."],
+     "metric": "~15/h", "metric_label": "ligands docked",
+     "tags": ["Raspberry Pi 5", "AutoDock Vina", "Power design"]}
   ],
-  "stack": {
-    "title": "Periodic table of my stack",
-    "categories": {
-      "ml": ["ML", "#A78BFA"],
-      "ai": ["AI", "#E879F9"],
-      "data": ["data", "#22D3EE"],
-      "stats": ["stats", "#4ADE80"],
-      "viz": ["viz", "#FB923C"],
-      "sci": ["science", "#F472B6"],
-      "eng": ["engineering", "#FACC15"],
-      "lang": ["languages", "#60A5FA"]
-    },
-    "elements": [
-      [1, "Py", "Python", "lang", 1, 1],
-      [2, "R", "R", "lang", 1, 9],
-      [3, "Sk", "scikit-learn", "ml", 2, 1],
-      [4, "Xg", "XGBoost", "ml", 2, 2],
-      [5, "Np", "NumPy", "data", 2, 3],
-      [6, "Pd", "pandas", "data", 2, 4],
-      [7, "Sp", "SciPy", "stats", 2, 5],
-      [8, "Mp", "Matplotlib", "viz", 2, 6],
-      [9, "Rd", "RDKit", "sci", 2, 7],
-      [10, "Fl", "Flask", "eng", 2, 8],
-      [11, "Pg", "PostgreSQL", "eng", 2, 9],
-      [12, "Tf", "TensorFlow", "ai", 3, 1],
-      [13, "Rg", "RAG", "ai", 3, 2],
-      [14, "Sq", "SQL", "data", 3, 3],
-      [15, "Jp", "Jupyter", "data", 3, 4],
-      [16, "St", "Statistics", "stats", 3, 5],
-      [17, "Sb", "Seaborn", "viz", 3, 6],
-      [18, "Av", "AutoDock Vina", "sci", 3, 7],
-      [19, "Gh", "GitHub Actions", "eng", 3, 8],
-      [20, "Rc", "React", "eng", 3, 9]
-    ]
-  }
+  "skills": [
+    ["Machine learning", ["scikit-learn", "XGBoost", "TensorFlow", "Ensemble models", "RAG and LLM apps"]],
+    ["Data and statistics", ["Python", "pandas", "NumPy", "SciPy", "SQL", "R"]],
+    ["Visualization", ["Matplotlib", "Seaborn", "Jupyter"]],
+    ["Engineering", ["Flask", "React", "Express", "PostgreSQL", "Supabase", "GitHub Actions"]],
+    ["Scientific computing", ["RDKit", "AutoDock Vina", "Calibration transfer"]]
+  ]
 }

@@ -144,16 +144,15 @@ def ago(when, now):
 
 def draw(m, push, now):
     T = Typesetter()
-    W, H = 1200, 440
-    X0, YT, X1, YB = 90, 136, 846, 360
+    W, H = 1200, 380
+    X0, YT, X1, YB = 90, 92, 846, 310
     weekly, smooth = m["weekly"], savitzky_golay(m["weekly"])
     vmax = nice_ceiling(max(weekly + [1]))
     to_y = lambda v: YB - math.sqrt(max(v, 0) / vmax) * (YB - YT)
     step = (X1 - X0) / WEEKS
     to_x = lambda i: X0 + (i + 0.5) * step
     out = [panel(W, H),
-           T.text("GitHub activity", 48, 70, "un", 28, INK["text"]),
-           T.text(f"last 52 weeks, redrawn {now.day} {now:%b %Y}", 49, 100, "mo", 14, INK["muted"])]
+           T.text(f"Weekly contributions, last 52 weeks. Updated {now.day} {now:%b %Y}.", 48, 54, "mo", 13, INK["dim"])]
 
     # Square-root axis, so quiet weeks stay visible next to busy ones
     ticks, last = [], None
@@ -180,7 +179,7 @@ def draw(m, push, now):
         if v:
             top = to_y(v)
             out.append(f'<rect x="{to_x(i) - 3.6:.1f}" y="{top:.1f}" width="7.2" height="{YB - top:.1f}" '
-                       f'rx="3.6" fill="{ramp(math.sqrt(v / vmax))}"/>')
+                       f'rx="3.6" fill="{ramp(math.sqrt(v / vmax))}" fill-opacity="0.85"/>')
     curve = smooth_path([(to_x(i), to_y(v)) for i, v in enumerate(smooth)], YB, YT)
     out.append(f'<path d="{curve}" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="7" filter="url(#blur)"/>')
     out.append(f'<path d="{curve}" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round"/>')
@@ -192,13 +191,13 @@ def draw(m, push, now):
     busiest = "/".join(d[:3] for d in m["busiest"]) or "none"
     cells = [(f"{m['total']:,}", "contributions"), (str(m["active"]), "active days"),
              (str(m["longest"]), "day best streak"), (busiest, "busiest day")]
-    for (value, label), (cx, cy) in zip(cells, [(892, 184), (1040, 184), (892, 282), (1040, 282)]):
-        value, size = fit(T, value, "un", 38, 138, 20)
-        out.append(T.text(value, cx, cy, "un", size, "url(#num)"))
+    for (value, label), (cx, cy) in zip(cells, [(892, 140), (1040, 140), (892, 232), (1040, 232)]):
+        value, size = fit(T, value, "hx", 38, 138, 20)
+        out.append(T.text(value, cx, cy, "hx", size, INK["text"]))
         out.append(T.text(label, cx + 1, cy + 26, "mo", 13, INK["muted"]))
     if push:
         note, size = fit(T, f"last push: {push[0]}, {ago(push[1], now)}", "mo", 13, 272, 10)
-        out.append(T.text(note, 893, 350, "mo", size, INK["muted"]))
+        out.append(T.text(note, 893, 300, "mo", size, INK["muted"]))
 
     defs = ('<linearGradient id="num" x1="0" y1="0" x2="0" y2="1">'
             '<stop offset="0" stop-color="#F43F5E"/><stop offset="1" stop-color="#FDE047"/></linearGradient>'

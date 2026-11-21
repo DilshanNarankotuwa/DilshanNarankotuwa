@@ -1,26 +1,23 @@
-"""Draw the static figures in assets/: hero, contact buttons, project cards and stack.
+"""Draw the static figures in assets/: hero, contact buttons, experience,
+project cards and skills.
 
 All text lives in lab/profile.json. Standard library only:  python lab/build.py
 """
 
 import json
+import math
 import os
 import random
-import re
 
 from typeset import Typesetter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(os.path.dirname(HERE), "assets")
 
-INK = {"bg": "#0B0D1A", "panel": "#0F1226", "edge": "#262A45", "grid": "#161A33",
-       "text": "#F4F5FB", "muted": "#9298BC", "dim": "#4C527A", "prompt": "#8B9BFF"}
-RAMP = ["#7C3AED", "#C026D3", "#F43F5E", "#FB923C", "#FDE047"]
-COLORS = {"cyan": "#22D3EE", "green": "#4ADE80", "pink": "#F472B6", "yellow": "#FACC15",
-          "violet": "#A78BFA", "orange": "#FB923C", "blue": "#60A5FA", "fuchsia": "#E879F9",
-          "rose": "#F43F5E"}
-MOTION = ("@keyframes f{from{opacity:0}}.f{animation:f .8s ease-out backwards}"
-          "@media (prefers-reduced-motion:reduce){*{animation:none!important}}")
+INK = {"bg": "#0E131C", "panel": "#131A26", "edge": "#222C3D", "line": "#1A2231",
+       "grid": "#1A2231", "text": "#F1F5F9", "soft": "#CBD5E1", "muted": "#94A3B8", "dim": "#64748B",
+       "accent": "#60A5FA"}
+ACC_A, ACC_B, WARM = "#3B82F6", "#22D3EE", "#F59E0B"
 
 
 # ------------------------------------------------------------------ helpers
@@ -35,17 +32,8 @@ def mix(a, b, t):
 
 
 def ramp(t):
-    """Violet to yellow, like a plasma colormap."""
-    t = min(1.0, max(0.0, t)) * (len(RAMP) - 1)
-    i = min(int(t), len(RAMP) - 2)
-    return mix(RAMP[i], RAMP[i + 1], t - i)
-
-
-def gradient(gid, colors, x1=0, y1=0, x2=1, y2=0, units=""):
-    n = len(colors) - 1
-    stops = "".join(f'<stop offset="{i / n:.2f}" stop-color="{c}"/>' for i, c in enumerate(colors))
-    u = f' gradientUnits="{units}"' if units else ""
-    return f'<linearGradient id="{gid}"{u} x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}">{stops}</linearGradient>'
+    """The single accent: blue to cyan."""
+    return mix(ACC_A, ACC_B, min(1.0, max(0.0, t)))
 
 
 def esc(s):
@@ -59,13 +47,13 @@ def svg(w, h, body, defs="", style="", title="", desc=""):
             + (f"<style>{style}</style>" if style else "") + f"<defs>{defs}</defs>{body}</svg>\n")
 
 
-def panel(w, h, r=24):
+def panel(w, h, r=20):
     return (f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="{r}" '
             f'fill="{INK["bg"]}" stroke="{INK["edge"]}" stroke-width="1.5"/>')
 
 
-def delay(t):
-    return f' class="f" style="animation-delay:{t:.2f}s"'
+ACCENT_DEF = (f'<linearGradient id="acc" x1="0" y1="0" x2="1" y2="0">'
+              f'<stop offset="0" stop-color="{ACC_A}"/><stop offset="1" stop-color="{ACC_B}"/></linearGradient>')
 
 
 def write(name, content):
@@ -83,117 +71,71 @@ def fit(T, text, face, size, max_w, min_size=12):
     return text, size
 
 
+def pills(T, tags, x, y, max_x):
+    out = []
+    for tag in tags:
+        w = T.width(tag, "mo", 13) + 26
+        if x + w > max_x:
+            break
+        out.append(f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="30" rx="15" '
+                   f'fill="{INK["line"]}" stroke="{INK["edge"]}"/>'
+                   + T.text(tag, x + 13, y + 20, "mo", 13, INK["soft"]))
+        x += w + 8
+    return "".join(out)
+
+
 # --------------------------------------------------------------------- hero
 
-def code_tokens(code):
-    tokens = re.findall(r"\s+|[A-Za-z_][A-Za-z_0-9]*|.", code)
-    out = []
-    for i, tok in enumerate(tokens):
-        nxt = tokens[i + 1] if i + 1 < len(tokens) else ""
-        if re.match(r"[A-Za-z_]", tok):
-            color = COLORS["cyan"] if nxt == "(" else COLORS["orange"] if nxt == "=" else INK["text"]
-        else:
-            color = INK["muted"]
-        out.append((tok, color))
-    return out
-
-
-def hero(p, dots):
-    T = Typesetter()
-    W, H = 1200, 640
-    X0, Y0, X1, Y1 = 96, 92, 1060, 480
-    out, defs = [panel(W, H)], []
-
-    # The notebook cell that "produced" this figure
-    x = 48
-    for tok, color in [("In [1]: ", INK["prompt"])] + code_tokens(p["code"]):
-        out.append(T.text(tok, x, 56, "mo", 17, color))
-        x += T.width(tok, "mo", 17)
-
-    # Axes
-    for i in range(1, 8):
-        gx = X0 + (X1 - X0) * i / 8
-        out.append(f'<line x1="{gx:.1f}" y1="{Y0}" x2="{gx:.1f}" y2="{Y1}" stroke="{INK["grid"]}"/>')
+def boundary_plot(x0, y0, w, h):
+    """Two classes and the curved decision boundary a classifier learned."""
+    rng = random.Random(4)
+    px0, py0, px1, py1 = x0 + 22, y0 + 22, x0 + w - 22, y0 + h - 22
+    sx = lambda u: px0 + u * (px1 - px0)
+    sy = lambda v: py1 - v * (py1 - py0)
+    edge = lambda u: 0.52 + 0.22 * math.sin(3.1 * u - 0.6) - 0.12 * u
+    curve = [(sx(i / 60), sy(edge(i / 60))) for i in range(61)]
+    line = "M" + " L".join(f"{a:.1f} {b:.1f}" for a, b in curve)
+    out = [f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="16" fill="{INK["panel"]}" stroke="{INK["edge"]}"/>',
+           f'<path d="{line} L{px1} {py0} L{px0} {py0} Z" fill="{WARM}" fill-opacity="0.07"/>',
+           f'<path d="{line} L{px1} {py1} L{px0} {py1} Z" fill="{ACC_A}" fill-opacity="0.08"/>']
     for i in range(1, 4):
-        gy = Y0 + (Y1 - Y0) * i / 4
-        out.append(f'<line x1="{X0}" y1="{gy:.1f}" x2="{X1}" y2="{gy:.1f}" stroke="{INK["grid"]}"/>')
-    out.append(f'<path d="M{X0} {Y0} V{Y1} H{X1}" fill="none" stroke="{INK["dim"]}" stroke-width="1.5"/>')
-    for i, label in ((0, "0"), (4, "0.5"), (8, "1")):
-        out.append(T.text(label, X0 + (X1 - X0) * i / 8, Y1 + 26, "mo", 13, INK["dim"], anchor="middle"))
-    for i, label in ((2, "0.5"), (4, "1")):
-        out.append(T.text(label, X0 - 12, Y1 - (Y1 - Y0) * i / 4 + 5, "mo", 13, INK["dim"], anchor="end"))
-
-    # The name, as a scatter plot
-    lines, gap = dots["lines"], 30
-    block = sum(l["height"] for l in lines) + gap * (len(lines) - 1)
-    top, left = Y0 + (Y1 - Y0 - block) / 2 + 4, X0 + 44
-    pts, boxes = [], []
-    for line in lines:
-        boxes.append((left - 8, top - 8, left + line["width"] + 8, top + line["height"] + 8))
-        pts += [(left + px, top + py) for px, py in line["points"]]
-        top += line["height"] + gap
-    xlo, xhi = min(q[0] for q in pts), max(q[0] for q in pts)
-    ylo, yhi = min(q[1] for q in pts), max(q[1] for q in pts)
-
-    for i, (bx0, by0, bx1, by1) in enumerate(boxes):
-        color = ("#7C3AED", "#FB923C")[i % 2]
-        defs.append(f'<radialGradient id="neb{i}"><stop offset="0" stop-color="{color}" stop-opacity="{0.30 - 0.08 * i:.2f}"/>'
-                    f'<stop offset="1" stop-color="{color}" stop-opacity="0"/></radialGradient>')
-        out.append(f'<ellipse cx="{(bx0 + bx1) / 2:.0f}" cy="{(by0 + by1) / 2:.0f}" rx="{(bx1 - bx0) * 0.62:.0f}" '
-                   f'ry="{(by1 - by0) * 1.25:.0f}" fill="url(#neb{i})"/>')
-
-    rng = random.Random(11)
-    n_txt = f"n = {len(pts):,}"
-    lw = T.width(n_txt, "mo", 14) + 48
-    legend = (X1 - 16 - lw, Y0 + 16, X1 - 16, Y0 + 54)
-    noise = []
-    while len(noise) < 150:
-        nx, ny = rng.uniform(X0 + 14, X1 - 14), rng.uniform(Y0 + 14, Y1 - 14)
-        if any(a < nx < c and b < ny < d for a, b, c, d in boxes + [legend]):
+        gx, gy = px0 + (px1 - px0) * i / 4, py0 + (py1 - py0) * i / 4
+        out.append(f'<line x1="{gx:.1f}" y1="{py0}" x2="{gx:.1f}" y2="{py1}" stroke="{INK["line"]}"/>'
+                   f'<line x1="{px0}" y1="{gy:.1f}" x2="{px1}" y2="{gy:.1f}" stroke="{INK["line"]}"/>')
+    dots = 0
+    while dots < 110:
+        u, v = rng.uniform(0.03, 0.97), rng.uniform(0.04, 0.96)
+        gap = v - edge(u)
+        if abs(gap) < 0.05:
             continue
-        noise.append(f'<circle cx="{nx:.1f}" cy="{ny:.1f}" r="2" fill="{ramp((nx - X0) / (X1 - X0))}" '
-                     f'opacity="0.45"{delay(0.3 + rng.random() * 1.4)}/>')
-    out.extend(noise)
+        above = gap > 0
+        if rng.random() < 0.04:
+            above = not above
+        color = WARM if above else ACC_B
+        out.append(f'<circle cx="{sx(u):.1f}" cy="{sy(v):.1f}" r="4.2" fill="{color}" fill-opacity="0.9"/>')
+        dots += 1
+    out.append(f'<path d="{line}" fill="none" stroke="{INK["text"]}" stroke-width="2.2" '
+               f'stroke-dasharray="7 6" stroke-linecap="round"/>')
+    return "".join(out)
 
-    r = round(p["dot_spacing"] * 0.37, 2)
-    for x, y in pts:
-        t = 0.82 * (x - xlo) / (xhi - xlo) + 0.18 * (y - ylo) / (yhi - ylo)
-        sx, sy = rng.uniform(X0 + 10, X1 - 10), rng.uniform(Y0 + 10, Y1 - 10)
-        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{ramp(t)}" class="d" '
-                   f'style="--x:{sx - x:.0f}px;--y:{sy - y:.0f}px;animation-delay:{0.2 + rng.random() * 0.9:.2f}s"/>')
 
-    # Legend and colorbar
-    lx, ly = legend[0], legend[1]
-    out.append(f'<g{delay(2.0)}><rect x="{lx:.1f}" y="{ly}" width="{lw:.1f}" height="38" rx="10" '
-               f'fill="{INK["panel"]}" stroke="{INK["edge"]}"/>'
-               f'<circle cx="{lx + 20:.1f}" cy="{ly + 19}" r="5.5" fill="{ramp(0.55)}"/>'
-               + T.text(n_txt, lx + 34, ly + 24, "mo", 14, INK["text"]) + "</g>")
-    cb = 1096
-    defs.append(gradient("cbar", list(reversed(RAMP)), 0, 0, 0, 1))
-    out.append(f'<rect x="{cb}" y="{Y0 + 4}" width="14" height="{Y1 - Y0 - 8}" rx="7" fill="url(#cbar)"/>')
-    for t, label in ((0, "1.0"), (0.5, "0.5"), (1, "0.0")):
-        out.append(T.text(label, cb + 24, Y0 + 4 + t * (Y1 - Y0 - 8) + 5, "mo", 13, INK["muted"]))
-    mid = (Y0 + Y1) / 2
-    out.append(f'<g transform="rotate(-90 1174 {mid})">'
-               + T.text(p["colorbar_label"], 1174, mid, "mo", 15, INK["muted"], anchor="middle") + "</g>")
-
-    # Title in the plasma gradient, then the subtitle
-    ts, tr, tx, ty = 46, 0.05, X0, 568
-    tw = T.width(p["title"], "un", ts, tr)
-    defs.append(gradient("tg", RAMP, tx, 0, tx + tw, 0, "userSpaceOnUse"))
-    defs.append(f'<mask id="tm" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">'
-                + T.text(p["title"], tx, ty, "un", ts, "#FFFFFF", tracking=tr) + "</mask>")
-    out.append(f'<rect x="{tx - 4}" y="{ty - ts}" width="{tw + 8:.0f}" height="{ts + 14}" fill="url(#tg)" '
-               f'mask="url(#tm)"{delay(1.5)}/>')
-    out.append(T.text(p["subtitle"], tx + 2, ty + 38, "mo", 17, INK["muted"], attrs=delay(1.8)))
-
-    style = (".d{animation:d 1.8s cubic-bezier(.16,.84,.24,1) backwards}"
-             "@keyframes d{from{transform:translate(var(--x),var(--y));fill:#2E3354}}" + MOTION)
-    desc = (f"{p['name']}, data scientist. The name is drawn as a scatter plot of {len(pts)} points "
-            f"colored from violet to yellow, inside a notebook-style figure with a colorbar labeled "
-            f"{p['colorbar_label']}.")
-    write("hero.svg", svg(W, H, "".join(out), "".join(defs) + T.defs(), style, p["name"], desc))
-    return len(pts)
+def hero(p):
+    T = Typesetter()
+    W, H = 1200, 420
+    out = [panel(W, H), f'<rect x="64" y="70" width="56" height="4" rx="2" fill="url(#acc)"/>']
+    name, size = fit(T, p["name"], "hx", 58, 640)
+    out.append(T.text(name, 62, 148, "hx", size, INK["text"], tracking=-0.01))
+    out.append(T.text(p["title"], 64, 196, "hd", 28, INK["accent"]))
+    out.append(T.text(p["statement"], 64, 236, "hm", 19, INK["muted"]))
+    out.append(f'<line x1="64" y1="284" x2="700" y2="284" stroke="{INK["edge"]}"/>')
+    for i, (label, value) in enumerate(p["facts"]):
+        x = 64 + i * 330
+        value, vs = fit(T, value, "hd", 17, 310)
+        out.append(T.text(label, x, 322, "mo", 12, INK["dim"], tracking=0.08))
+        out.append(T.text(value, x, 350, "hd", vs, INK["text"]))
+    out.append(boundary_plot(780, 56, 360, 308))
+    desc = f'{p["name"]}, {p["title"]}. {p["statement"]} ' + " ".join(f"{a.title()}: {b}." for a, b in p["facts"])
+    write("hero.svg", svg(W, H, "".join(out), ACCENT_DEF + T.defs(), title=p["name"], desc=desc))
 
 
 # ------------------------------------------------------------------ buttons
@@ -208,176 +150,88 @@ ICONS = {
 
 def button(b):
     T = Typesetter()
-    h = 64
-    c1, c2 = COLORS[b["colors"][0]], COLORS[b["colors"][1]]
-    w = round(h + 4 + T.width(b["label"], "un", 19) + 30)
-    body = (f'<rect x="1.5" y="1.5" width="{w - 3}" height="{h - 3}" rx="{(h - 3) / 2}" '
-            f'fill="{INK["bg"]}" stroke="url(#edge)" stroke-width="2"/>'
-            f'<circle cx="{h / 2 + 2}" cy="{h / 2}" r="21" fill="{c1}" fill-opacity="0.16"/>'
-            f'<g transform="translate({h / 2 + 2} {h / 2})" fill="none" stroke="{c1}" stroke-width="2.2" '
+    h = 56
+    w = round(h + T.width(b["label"], "hd", 18) + 26)
+    body = (f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="12" fill="{INK["panel"]}" '
+            f'stroke="{INK["edge"]}" stroke-width="1.5"/>'
+            f'<g transform="translate({h / 2 + 2} {h / 2})" fill="none" stroke="{INK["accent"]}" stroke-width="2" '
             f'stroke-linecap="round" stroke-linejoin="round">{ICONS[b["icon"]]}</g>'
-            + T.text(b["label"], h + 4, h / 2 + 7, "un", 19, INK["text"]))
-    defs = gradient("edge", [c1, c2], 0, 0, w, 0, "userSpaceOnUse") + T.defs()
-    write(b["file"], svg(w, h, body, defs, title=b["label"], desc=b["label"]))
+            + T.text(b["label"], h + 2, h / 2 + 6.5, "hd", 18, INK["text"]))
+    write(b["file"], svg(w, h, body, T.defs(), title=b["label"], desc=b["label"]))
 
 
-# -------------------------------------------------------------------- cards
+# --------------------------------------------------------------- experience
 
-def frame(x, y, w, h):
-    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="16" fill="{INK["panel"]}" stroke="{INK["edge"]}"/>'
-
-
-def viz_scatter(T, x, y, w, h, acc):
-    rng = random.Random(5)
-    a0, b0, a1, b1 = x + 24, y + h - 22, x + w - 20, y + 20
-    out = [frame(x, y, w, h),
-           f'<path d="M{a0} {b1} V{b0} H{a1}" fill="none" stroke="{INK["dim"]}" stroke-width="1.5"/>',
-           f'<line x1="{a0}" y1="{b0}" x2="{a1}" y2="{b1}" stroke="#FFFFFF" stroke-opacity="0.4" '
-           f'stroke-width="1.5" stroke-dasharray="5 6"/>']
-    for _ in range(44):
-        t = rng.random()
-        v = min(0.97, max(0.03, t + rng.gauss(0, 0.08)))
-        out.append(f'<circle cx="{a0 + 6 + t * (a1 - a0 - 12):.1f}" cy="{b0 - 6 - v * (b0 - b1 - 12):.1f}" '
-                   f'r="4.2" fill="{ramp(t)}" fill-opacity="0.92"/>')
-    return "".join(out)
-
-
-def viz_bars(T, x, y, w, h, acc):
-    vals = [1.0, 0.88, 0.79, 0.68, 0.58, 0.47, 0.37]
-    bh, gap = 14, 8.5
-    top = y + (h - (len(vals) * bh + (len(vals) - 1) * gap)) / 2
-    out = [frame(x, y, w, h)]
-    for i, v in enumerate(vals):
-        out.append(f'<rect x="{x + 22}" y="{top + i * (bh + gap):.1f}" width="{(w - 44) * v:.1f}" '
-                   f'height="{bh}" rx="7" fill="{ramp(1 - i / (len(vals) - 1))}"/>')
-    return "".join(out)
-
-
-def viz_graph(T, x, y, w, h, acc):
-    nodes = {"CPU": (x + 50, y + 42), "RAM": (x + w - 50, y + 42), "MB": (x + w / 2, y + h / 2),
-             "GPU": (x + 50, y + h - 42), "PSU": (x + w - 50, y + h - 42)}
-    mx, my = nodes["MB"]
-    out = [frame(x, y, w, h)]
-    for name, (nx, ny) in nodes.items():
-        if name != "MB":
-            out.append(f'<line x1="{mx}" y1="{my}" x2="{nx}" y2="{ny}" stroke="{acc}" stroke-opacity="0.55" stroke-width="2"/>')
-            cx, cy = (mx + nx) / 2, (my + ny) / 2
-            out.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="8" fill="{INK["panel"]}" stroke="#4ADE80" stroke-width="1.6"/>'
-                       f'<path d="M{cx - 3.5:.1f} {cy:.1f} L{cx - 1:.1f} {cy + 2.6:.1f} L{cx + 3.8:.1f} {cy - 2.8:.1f}" '
-                       f'fill="none" stroke="#4ADE80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>')
-    for name, (nx, ny) in nodes.items():
-        hub = name == "MB"
-        if hub:
-            out.append(f'<rect x="{nx - 27}" y="{ny - 14}" width="54" height="28" rx="9" fill="{INK["panel"]}"/>')
-        out.append(f'<rect x="{nx - 27}" y="{ny - 14}" width="54" height="28" rx="9" fill="{acc if hub else INK["panel"]}" '
-                   f'fill-opacity="{0.22 if hub else 1}" stroke="{acc}" stroke-width="1.6"/>')
-        out.append(T.text(name, nx, ny + 4.5, "mb", 12, INK["text"], anchor="middle"))
-    return "".join(out)
-
-
-def viz_ensemble(T, x, y, w, h, acc):
-    out = [frame(x, y, w, h)]
-    ox, oy = x + w - 42, y + h / 2
-    for i, color in enumerate((COLORS["violet"], COLORS["fuchsia"], COLORS["cyan"])):
-        tx, ty = x + 50, y + 38 + i * (h - 76) / 2
-        out.append(f'<path d="M{tx + 30} {ty - 2} C{tx + 80} {ty - 2} {ox - 50} {oy} {ox - 16} {oy}" fill="none" '
-                   f'stroke="{color}" stroke-opacity="0.6" stroke-width="1.8"/>')
-        leaves = [(tx - 24, ty + 18), (tx - 8, ty + 18), (tx + 8, ty + 18), (tx + 24, ty + 18)]
-        kids = [(tx - 16, ty + 2), (tx + 16, ty + 2)]
-        edges = [((tx, ty - 14), k) for k in kids] + [(kids[0], leaves[0]), (kids[0], leaves[1]),
-                                                      (kids[1], leaves[2]), (kids[1], leaves[3])]
-        for (a, b), (c, d) in edges:
-            out.append(f'<line x1="{a}" y1="{b}" x2="{c}" y2="{d}" stroke="{color}" stroke-opacity="0.7" stroke-width="1.5"/>')
-        for (cx, cy) in [(tx, ty - 14)] + kids + leaves:
-            out.append(f'<circle cx="{cx}" cy="{cy}" r="4" fill="{color}"/>')
-    out.append(f'<circle cx="{ox}" cy="{oy}" r="24" fill="{acc}" fill-opacity="0.12"/>'
-               f'<circle cx="{ox}" cy="{oy}" r="14" fill="url(#out)"/>')
-    return "".join(out)
-
-
-VIZ = {"scatter": viz_scatter, "bars": viz_bars, "graph": viz_graph, "ensemble": viz_ensemble}
-
-
-def card(c, cats):
+def experience(e):
     T = Typesetter()
-    W, H = 600, 340
-    acc = COLORS[c["accent"]]
-    defs = (f'<radialGradient id="glow" cx="0.92" cy="0.02" r="0.85"><stop offset="0" stop-color="{acc}" '
-            f'stop-opacity="0.32"/><stop offset="1" stop-color="{acc}" stop-opacity="0"/></radialGradient>'
-            + gradient("out", [RAMP[1], RAMP[3]], 0, 0, 1, 1))
-    out = [panel(W, H, 22), f'<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="22" fill="url(#glow)"/>']
-    badge = c["badge"].upper()
-    out.append(f'<rect x="32" y="30" width="{T.width(badge, "mb", 12, 0.08) + 28:.1f}" height="28" rx="14" '
-               f'fill="{acc}" fill-opacity="0.14" stroke="{acc}" stroke-opacity="0.65"/>')
-    out.append(T.text(badge, 46, 49, "mb", 12, acc, tracking=0.08))
-    y = 106
-    for line in c["title"]:
-        text, size = fit(T, line, "un", 30, 318, 22)
-        out.append(T.text(text, 31, y, "un", size, INK["text"]))
-        y += 38
-    y += 2
-    for line in c["lines"]:
-        out.append(T.text(line, 33, y, "mo", 15, INK["muted"]))
-        y += 23
-    out.append(VIZ[c["viz"]](T, 364, 72, 204, 176, acc))
-    x = 32
-    for text, cat in c["tags"]:
-        col = cats[cat][1]
-        tw = T.width(text, "mo", 13) + 26
-        out.append(f'<rect x="{x:.1f}" y="276" width="{tw:.1f}" height="32" rx="16" fill="{col}" '
-                   f'fill-opacity="0.12" stroke="{col}" stroke-opacity="0.5"/>')
-        out.append(T.text(text, x + 13, 297, "mo", 13, col))
-        x += tw + 8
-    desc = f'{" ".join(c["title"])}. {" ".join(c["lines"])}. Built with {", ".join(t for t, _ in c["tags"])}.'
-    write(c["file"], svg(W, H, "".join(out), defs + T.defs(), title=" ".join(c["title"]), desc=desc))
+    W, H = 1200, 290
+    out = [panel(W, H), f'<rect x="48" y="48" width="40" height="4" rx="2" fill="url(#acc)"/>',
+           T.text(e["company"], 48, 96, "hx", 32, INK["text"]),
+           T.text(e["role"], 48, 128, "hd", 19, INK["accent"]),
+           T.text(e["period"], 48, 156, "mo", 13, INK["dim"]),
+           f'<line x1="420" y1="48" x2="420" y2="182" stroke="{INK["edge"]}"/>']
+    for i, point in enumerate(e["points"]):
+        y = 82 + i * 44
+        text, size = fit(T, point, "hm", 18, 680)
+        out.append(f'<circle cx="460" cy="{y - 6}" r="4" fill="url(#acc)"/>')
+        out.append(T.text(text, 478, y, "hm", size, INK["soft"]))
+    out.append(f'<line x1="48" y1="210" x2="{W - 48}" y2="210" stroke="{INK["line"]}"/>')
+    out.append(pills(T, e["tags"], 48, 228, W - 48))
+    desc = f'{e["role"]} at {e["company"]}, {e["period"]}. ' + " ".join(pt + "." for pt in e["points"])
+    write("experience.svg", svg(W, H, "".join(out), ACCENT_DEF + T.defs(), title=e["company"], desc=desc))
 
 
-# -------------------------------------------------------------------- stack
+# ---------------------------------------------------------------- projects
 
-def stack(p):
+def project(c):
     T = Typesetter()
-    s = p["stack"]
-    cats = s["categories"]
-    TW, G, cols, Y = 112, 10, 9, 34
-    X = (1200 - (cols * TW + (cols - 1) * G)) / 2
-    W, H = 1200, Y * 2 + 3 * TW + 2 * G
+    W, H = 600, 290
+    out = [panel(W, H, 18), f'<rect x="36" y="36" width="40" height="4" rx="2" fill="url(#acc)"/>',
+           T.text(c["category"], 36, 68, "mo", 12, INK["dim"], tracking=0.08)]
+    title, ts = fit(T, c["title"], "hd", 27, 360)
+    out.append(T.text(title, 36, 110, "hd", ts, INK["text"]))
+    for i, line in enumerate(c["lines"]):
+        out.append(T.text(line, 36, 148 + i * 25, "hm", 16, INK["muted"]))
+    metric, ms = fit(T, c["metric"], "hx", 30, 170)
+    out.append(T.text(metric, W - 36, 84, "hx", ms, INK["accent"], anchor="end"))
+    out.append(T.text(c["metric_label"], W - 36, 108, "mo", 12, INK["dim"], anchor="end"))
+    out.append(pills(T, c["tags"], 36, 222, W - 36))
+    desc = f'{c["title"]}: {" ".join(c["lines"])} {c["metric"]} {c["metric_label"]}. Built with {", ".join(c["tags"])}.'
+    write(c["file"], svg(W, H, "".join(out), ACCENT_DEF + T.defs(), title=c["title"], desc=desc))
+
+
+# ------------------------------------------------------------------ skills
+
+def skills(groups):
+    T = Typesetter()
+    W = 1200
+    rows = max(len(items) for _, items in groups)
+    H = 120 + rows * 32
+    col = (W - 96) / len(groups)
     out = [panel(W, H)]
-    for n, sym, name, cat, row, col in s["elements"]:
-        c = cats[cat][1]
-        x, y = X + (col - 1) * (TW + G), Y + (row - 1) * (TW + G)
-        size = 12
-        while T.width(name, "mo", size) > TW - 14 and size > 9:
-            size -= 0.5
-        out.append('<g>'
-                   f'<rect x="{x:.1f}" y="{y}" width="{TW}" height="{TW}" rx="14" fill="{c}" fill-opacity="0.10" '
-                   f'stroke="{c}" stroke-opacity="0.6" stroke-width="1.5"/>'
-                   + T.text(str(n), x + 12, y + 22, "mo", 12, c)
-                   + T.text(sym, x + TW / 2, y + 70, "un", 34, c, anchor="middle")
-                   + T.text(name, x + TW / 2, y + 95, "mo", size, INK["muted"], anchor="middle") + "</g>")
-    cx = (X + TW + G + X + 8 * (TW + G) - G) / 2
-    out.append(T.text(s["title"], cx, Y + 54, "un", 28, INK["text"], anchor="middle"))
-    items = list(cats.values())
-    widths = [T.width(label, "mo", 13) + 18 for label, _ in items]
-    lx = cx - (sum(widths) + 18 * (len(items) - 1)) / 2
-    for (label, color), w in zip(items, widths):
-        out.append(f'<circle cx="{lx + 5:.1f}" cy="{Y + 85}" r="5" fill="{color}"/>')
-        out.append(T.text(label, lx + 16, Y + 90, "mo", 13, INK["muted"]))
-        lx += w + 18
-    desc = "Tools I use, laid out like a periodic table: " + ", ".join(e[2] for e in s["elements"]) + "."
-    write("stack.svg", svg(W, H, "".join(out), T.defs(), "", s["title"], desc))
+    for i, (head, items) in enumerate(groups):
+        x = 48 + i * col
+        if i:
+            out.append(f'<line x1="{x - 18:.1f}" y1="44" x2="{x - 18:.1f}" y2="{H - 40}" stroke="{INK["line"]}"/>')
+        out.append(f'<rect x="{x:.1f}" y="44" width="28" height="4" rx="2" fill="url(#acc)"/>')
+        head, hs = fit(T, head, "hd", 17, col - 30)
+        out.append(T.text(head, x, 80, "hd", hs, INK["accent"]))
+        for j, item in enumerate(items):
+            out.append(T.text(item, x, 118 + j * 32, "hm", 16, INK["soft"]))
+    desc = " ".join(f"{h}: {', '.join(items)}." for h, items in groups)
+    write("skills.svg", svg(W, H, "".join(out), ACCENT_DEF + T.defs(), title="Skills", desc=desc))
 
 
 def main():
     with open(os.path.join(HERE, "profile.json"), encoding="utf-8") as fh:
         p = json.load(fh)
-    with open(os.path.join(HERE, "dots.json"), encoding="utf-8") as fh:
-        dots = json.load(fh)
-    hero(p, dots)
+    hero(p)
     for b in p["buttons"]:
         button(b)
-    for c in p["cards"]:
-        card(c, p["stack"]["categories"])
-    stack(p)
+    experience(p["experience"])
+    for c in p["projects"]:
+        project(c)
+    skills(p["skills"])
 
 
 if __name__ == "__main__":
