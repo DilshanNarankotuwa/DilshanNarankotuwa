@@ -1,139 +1,86 @@
-<div align="center">
+<img src="assets/hero.svg" width="100%" alt="Dilshan Narankotuwa. I trained as a chemist. Now I build models that read spectra. An illustrative near-infrared spectrum is sampled at seven wavelengths, standardized into a column of numbers, and read by a small neural network that returns one prediction. Curly braces label the three stages: science, software, intelligence.">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=900&center=true&vCenter=true&width=950&lines=Dilshan+:+Data+Scientist;Science+%E2%86%92+Data+%E2%86%92+Real+World+Impact;Python+%7C+Machine+Learning+%7C+SQL+%7C+Analytics;Turning+Data+Into+Decisions." />
+<sub><b>Fig. 1.</b> An illustrative near-infrared spectrum with the broad O-H and C-H bands of plant material, sampled at seven wavelengths, standardized, and read by a small network that returns one number. Most of my work happens somewhere along that line.</sub>
 
-<br/><br/>
+I studied chemistry at the University of Sri Jayewardenepura and wrote my thesis on docking libraries of small molecules against dengue virus targets. That thesis is where I started writing software to do the science for me, and I haven't stopped. Right now I'm an intern data scientist at [SpectrifyAI](https://spectrify.ai), building models that predict tea chemistry from near-infrared spectra.
 
-<img src="https://komarev.com/ghpvc/?username=DilshanNarankotuwa&label=Profile%20Views&color=0e75b6&style=for-the-badge" />
-<img src="https://img.shields.io/github/followers/DilshanNarankotuwa?label=Followers&style=for-the-badge&color=blue" />
-<img src="https://img.shields.io/github/stars/DilshanNarankotuwa?affiliations=OWNER&style=for-the-badge&label=Stars&color=blue" />
+[Email](mailto:narankotuwadilshan@gmail.com) &ensp;/&ensp; [LinkedIn](https://www.linkedin.com/in/dilshan-narankotuwa) &ensp;/&ensp; [Portfolio](https://personal-portfolio-zeta-coral.vercel.app)
 
-<br/><br/>
+## From the bench to the model
 
-<img src="https://img.shields.io/badge/Role-Data%20Scientist-informational" />
-<img src="https://img.shields.io/badge/Focus-ML%20%26%20Analytics-blue" />
-<img src="https://img.shields.io/badge/Background-Science%20Driven-2ea44f" />
-<img src="https://img.shields.io/badge/Mindset-Problem%20Solver-8A2BE2" />
+**Chemistry taught me not to trust a single measurement.** You calibrate, run a blank, repeat, and only then believe the number. I still work that way. A held-out test set is just a control I set up before I'm allowed to look.
 
-</div>
+**My thesis moved the bench into a terminal.** Docking whole ligand databases meant scripting the chemistry, so I built bridge tools that run RDKit and AutoDock Vina inside Galaxy.
 
----
+**Then my laptop died halfway through.** Instead of buying a new one, I built a computer: a Raspberry Pi 5 tablet that slots into a wooden briefcase and becomes a laptop. It runs AutoDock Vina at about 15 ligands an hour.
 
-## 👋 Who I Am
+**Now both halves meet in one job.** At SpectrifyAI I train models that read near-infrared spectra and predict tea chemistry, make them hold up when a sample is measured on a different instrument, and help put them into the company's web app.
 
-I’m a **science-trained data professional** focused on solving real-world problems using **data science, machine learning, and analytical thinking**.
+```math
+\begin{array}{ll}
+\textit{science} & A(\lambda) = \varepsilon(\lambda)\, b\, c \\[6pt]
+\textit{software} & \mathbf{x} = \mathrm{SNV}\big(\mathrm{d}A/\mathrm{d}\lambda\big) \\[6pt]
+\textit{intelligence} & \hat{c} = f_{\theta}(\mathbf{x})
+\end{array}
+```
 
-My background in **Chemistry, research workflows, and computational systems** trained me to think in terms of:
+<sub><b>Eq. 1.</b> The Beer-Lambert law links what is in a sample to the light it absorbs. Preprocessing turns that light into clean features, and a trained model reads the concentration back out.</sub>
 
-✔ precision  
-✔ evidence-based reasoning  
-✔ structured experimentation  
-✔ reproducibility  
-✔ logical decision-making  
+## Experiments
 
-Today, I apply that same mindset to building **predictive models, data pipelines, and business-driven insights**.
+Written up the way I'd log them at the bench: the question, what I did, and where it stands.
 
-> I don’t use data to create dashboards only.  
-> I use data to **solve problems and drive decisions**.
+### [Galaxy Bridge Tool](https://github.com/DilshanNarankotuwa/Galaxy-Bridge-Tool)
 
----
+**Question.** Can a whole ligand library be docked against a protein in one Galaxy run, instead of one molecule at a time?<br>
+**What I did.** Wrapped RDKit and AutoDock Vina in a Galaxy tool that docks every ligand in parallel across all CPU cores, ranks the poses by score, and converts the best ones with Open Babel.<br>
+**Where it stands.** Thesis prototype, demonstrated on dengue virus targets.
 
-## 📊 GitHub Analytics
+<kbd>Python</kbd> <kbd>RDKit</kbd> <kbd>AutoDock Vina</kbd> <kbd>Open Babel</kbd> <kbd>Galaxy</kbd>
 
-<div align="center">
+### [Pi Machine](https://github.com/DilshanNarankotuwa/Galaxy-Pi-Project)
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=DilshanNarankotuwa&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=DilshanNarankotuwa&layout=compact&theme=tokyonight&hide_border=true" />
+**Question.** My laptop died mid-thesis. Could I build something cheaper that would keep the docking going?<br>
+**What I did.** Designed a Raspberry Pi 5 tablet with its own battery pack that docks into a handmade wooden briefcase with a 15.6 inch screen and a keyboard.<br>
+**Where it stands.** Built and documented, with the parts list, power design and assembly guide.
 
-<br/><br/>
+<kbd>Raspberry Pi 5</kbd> <kbd>18650 cells</kbd> <kbd>Raspberry Pi OS</kbd> <kbd>AutoDock Vina</kbd> <kbd>PyMOL</kbd>
 
-<img src="https://streak-stats.demolab.com?user=DilshanNarankotuwa&theme=tokyonight&hide_border=true" />
+### [GigaHz](https://github.com/DilshanNarankotuwa/GigaHz)
 
-</div>
+**Question.** Can a parts shop stop people from buying a PC build that won't work?<br>
+**What I did.** Built a React and Express app on PostgreSQL that checks every pick against hardware rules (CPU socket, RAM type, power supply wattage, form factor) and only offers parts that fit the build so far.<br>
+**Where it stands.** [Live demo](https://gigahz-demo.vercel.app), and over 80 stars on the repository.
 
----
+<kbd>React</kbd> <kbd>Node.js</kbd> <kbd>Express</kbd> <kbd>PostgreSQL</kbd> <kbd>Vercel</kbd>
 
-## 🧠 What Makes Me Valuable
+**Also on the bench.** [Laptop price predictor](https://github.com/DilshanNarankotuwa/Laptop_Price_Predictor): four regressors compared on 1,303 laptops, a random forest tuned with grid search to an R² of 0.78 on held-out data, served from a small Flask app.
 
-Science taught me:
+**In the field.** My SpectrifyAI work lives in private repositories: NIR calibration models for tea chemistry such as total polyphenols and thearubigins, piecewise direct standardization to carry a model from one instrument to another, and a pipeline that adds new spectroscopy papers to a retrieval-based assistant every day.
 
-✔ patience with complexity  
-✔ data-driven thinking  
-✔ hypothesis testing mindset  
-✔ accuracy under uncertainty  
-✔ disciplined problem solving  
+## What I work with
 
-That’s why my work tends to be:
+<dl>
+<dt>Research and intelligence</dt>
+<dd><kbd>scikit-learn</kbd> <kbd>XGBoost</kbd> <kbd>TensorFlow</kbd> <kbd>calibration transfer (PDS)</kbd> <kbd>RAG with pgvector</kbd></dd>
+<dt>Scientific computing</dt>
+<dd><kbd>NumPy</kbd> <kbd>SciPy</kbd> <kbd>pandas</kbd> <kbd>R</kbd> <kbd>RDKit</kbd> <kbd>AutoDock Vina</kbd> <kbd>Open Babel</kbd></dd>
+<dt>Engineering</dt>
+<dd><kbd>Python</kbd> <kbd>JavaScript</kbd> <kbd>React</kbd> <kbd>Express</kbd> <kbd>Flask</kbd> <kbd>PostgreSQL</kbd> <kbd>Supabase</kbd> <kbd>GitHub Actions</kbd> <kbd>Vercel</kbd></dd>
+</dl>
 
-✔ analytical  
-✔ structured  
-✔ interpretable  
-✔ business-oriented  
-✔ scalable  
+## Activity, measured like a spectrum
 
-I’m comfortable working where **data, logic, and impact intersect**.
+<img src="assets/activity.svg" width="100%" alt="Contribution spectrum: weekly GitHub contributions over the last 52 weeks as sticks, a smoothed curve on top, and a table of totals.">
 
----
+<sub><b>Fig. 2.</b> Weekly contributions as sticks and the same data smoothed with a Savitzky-Golay filter as the curve, on a square-root axis so quiet weeks stay visible next to busy ones. A GitHub Action in this repository redraws it every morning.</sub>
 
-## 💻 Data Science Stack
+## Get in touch
 
-### Programming
-![Python](https://img.shields.io/badge/python-3670A0?style=plastic&logo=python&logoColor=ffdd54)
-![SQL](https://img.shields.io/badge/SQL-025E8C?style=plastic)
-![R](https://img.shields.io/badge/r-%23276DC3.svg?style=plastic&logo=r&logoColor=white)
+Give me a noisy dataset with a real measurement behind it and I'm happy. If you have one, or a role built around one, write to me.
 
-### Machine Learning
-![Scikit Learn](https://img.shields.io/badge/scikit--learn-F7931E?style=plastic&logo=scikit-learn&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=plastic&logo=tensorflow&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-EC6B23?style=plastic)
-![Statistics](https://img.shields.io/badge/Statistics-00599C?style=plastic)
+**Email** &ensp; [narankotuwadilshan@gmail.com](mailto:narankotuwadilshan@gmail.com)<br>
+**LinkedIn** &ensp; [linkedin.com/in/dilshan-narankotuwa](https://www.linkedin.com/in/dilshan-narankotuwa)<br>
+**Portfolio** &ensp; [personal-portfolio-zeta-coral.vercel.app](https://personal-portfolio-zeta-coral.vercel.app)
 
-### Data Analysis
-![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=plastic&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=plastic&logo=numpy&logoColor=white)
-![SciPy](https://img.shields.io/badge/SciPy-%230C55A5.svg?style=plastic&logo=scipy&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=plastic&logo=Matplotlib&logoColor=black)
-![Seaborn](https://img.shields.io/badge/Seaborn-0099cc?style=plastic)
-
-### Database & Tools
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=plastic&logo=postgresql&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-07405e?style=plastic&logo=sqlite&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=plastic&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=plastic&logo=github&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=plastic&logo=Jupyter&logoColor=white)
-
----
-
-## 🚀 Current Focus
-
-✔ Machine Learning Projects  
-✔ Predictive Modeling  
-✔ Data Cleaning & Feature Engineering  
-✔ Statistical Analysis  
-✔ Model Deployment  
-✔ AI & Advanced Analytics Growth Path  
-
----
-
-## 📈 Contribution Graph
-
-<div align="center">
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=DilshanNarankotuwa&theme=tokyo-night&hide_border=true&area=true" />
-
-</div>
-
----
-
-## 🌐 Connect With Me
-
-📧 Email: **narankotuwadilshan@gmail.com**  
-🔗 LinkedIn: **www.linkedin.com/in/dilshan-narankotuwa**
-
----
-
-<div align="center">
-
-### ⚡ Transforming Data Into Decisions
-
-</div>
+<sub>Both figures are drawn by dependency-free Python in <a href="https://github.com/DilshanNarankotuwa/DilshanNarankotuwa/tree/main/lab"><code>lab/</code></a> and set in Computer Modern, the typeface of LaTeX.</sub>
