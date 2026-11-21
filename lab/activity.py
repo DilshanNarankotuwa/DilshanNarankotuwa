@@ -1,12 +1,10 @@
-"""Draw assets/activity.svg: Fig. 2 of the profile.
+"""Draw assets/activity.svg: GitHub activity for the last 52 weeks.
 
-Weekly GitHub contributions for the last 52 weeks, drawn like a spectrum:
-raw weekly counts as sticks, a Savitzky-Golay smoothed curve on top, and a
-small table of measurements beside the plot.
-
-Data comes from the GraphQL API when GITHUB_TOKEN is set (as it is inside
-GitHub Actions) and from the public contribution calendar page otherwise.
-If nothing can be fetched, the existing figure is left untouched.
+Weekly contributions as colored bars, a smoothed trend line (Savitzky-Golay,
+window 5, quadratic) and four totals. Data comes from the GraphQL API when
+GITHUB_TOKEN is set (as it is in GitHub Actions) and from the public
+contribution calendar otherwise. If nothing can be fetched, the current
+figure stays as it is.
 
 Standard library only:  python lab/activity.py
 """
@@ -20,28 +18,14 @@ import sys
 import urllib.request
 from collections import Counter
 
+from build import INK, fit, panel, ramp, svg, write
 from typeset import Typesetter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-DEST = os.path.join(ROOT, "assets", "activity.svg")
-
-INK = {
-    "midnight": "#0E1524",
-    "edge": "#1C2840",
-    "paper": "#E8EDF4",
-    "graphite": "#93A1B5",
-    "rule": "#33415C",
-    "grid": "#1E2A41",
-    "signal": "#5ED1C4",
-}
-W, H = 1200, 400
-PLOT = (100, 140, 860, 336)          # x0, y_top, x1, y_base
-TABLE_X = (904, 1144)
 WEEKS = 52
-SG_KERNEL = [-3, 12, 17, 12, -3]     # Savitzky-Golay, window 5, quadratic
-SG_NORM = 35
+SG_KERNEL, SG_NORM = [-3, 12, 17, 12, -3], 35
 UA = {"User-Agent": "profile-figures (github.com)"}
+DAYS = ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 
 
 # ----------------------------------------------------------------- fetching
@@ -73,8 +57,7 @@ def calendar_html(user):
         count = re.search(r'data-count="(\d+)"', cell)
         if count is None:
             cid = re.search(r'\bid="([^"]+)"', cell)
-            text = tips.get(cid.group(1), "") if cid else ""
-            count = re.match(r"\s*(\d+)\s+contribution", text)
+            count = re.match(r"\s*(\d+)\s+contribution", tips.get(cid.group(1), "") if cid else "")
         days[date.group(1)] = int(count.group(1)) if count else 0
     if not days:
         raise ValueError("calendar page had no day cells")
@@ -90,13 +73,12 @@ def latest_push(user, token):
 
 
 def pick_push(events, user):
-    """Most recent push to a repository other than the profile repository itself."""
+    """Most recent push to a repository other than this profile repository."""
     for ev in events:
-        repo = ev.get("repo", {}).get("name", "")
-        owner, _, name = repo.partition("/")
+        owner, _, name = ev.get("repo", {}).get("name", "").partition("/")
         if ev.get("type") == "PushEvent" and name.lower() != user.lower():
             when = dt.datetime.fromisoformat(ev["created_at"].replace("Z", "+00:00"))
-            return (name if owner.lower() == user.lower() else repo), when
+            return (name if owner.lower() == user.lower() else f"{owner}/{name}"), when
     return None
 
 
@@ -104,26 +86,21 @@ def pick_push(events, user):
 
 def measure(days, today):
     dates = sorted(d for d in days if dt.date.fromisoformat(d) <= today)
-    total = sum(days[d] for d in dates)
-    active = sum(1 for d in dates if days[d] > 0)
     longest = run = 0
+    weekday = Counter()
     for d in dates:
         run = run + 1 if days[d] else 0
         longest = max(longest, run)
-    weekday = Counter()
-    for d in dates:
         weekday[dt.date.fromisoformat(d).strftime("%A")] += days[d]
     top = max(weekday.values()) if weekday else 0
-    busiest = [name for name in ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-               if top and weekday[name] == top]
-    # Weeks start on Sunday, like the calendar on a GitHub profile
     start = today - dt.timedelta(days=(today.weekday() + 1) % 7) - dt.timedelta(weeks=WEEKS - 1)
     weekly = [0] * WEEKS
     for d in dates:
         i = (dt.date.fromisoformat(d) - start).days // 7
         if 0 <= i < WEEKS:
             weekly[i] += days[d]
-    return {"total": total, "active": active, "longest": longest, "busiest": busiest,
+    return {"total": sum(days[d] for d in dates), "active": sum(1 for d in dates if days[d]),
+            "longest": longest, "busiest": [n for n in DAYS if top and weekday[n] == top],
             "weekly": weekly, "start": start}
 
 
@@ -143,15 +120,14 @@ def nice_ceiling(v):
 
 
 def smooth_path(points, floor, ceiling):
-    """Catmull-Rom spline through points, kept between the baseline and the top."""
+    """Catmull-Rom spline through the points, kept between baseline and top."""
     clamp = lambda y: min(floor, max(ceiling, y))
     p = [points[0]] + points + [points[-1]]
     d = f"M{p[1][0]:.1f} {p[1][1]:.1f}"
     for i in range(1, len(p) - 2):
         (x0, y0), (x1, y1), (x2, y2), (x3, y3) = p[i - 1], p[i], p[i + 1], p[i + 2]
-        c1 = (x1 + (x2 - x0) / 6, clamp(y1 + (y2 - y0) / 6))
-        c2 = (x2 - (x3 - x1) / 6, clamp(y2 - (y3 - y1) / 6))
-        d += f" C{c1[0]:.1f} {c1[1]:.1f} {c2[0]:.1f} {c2[1]:.1f} {x2:.1f} {y2:.1f}"
+        d += (f" C{x1 + (x2 - x0) / 6:.1f} {clamp(y1 + (y2 - y0) / 6):.1f} "
+              f"{x2 - (x3 - x1) / 6:.1f} {clamp(y2 - (y3 - y1) / 6):.1f} {x2:.1f} {y2:.1f}")
     return d
 
 
@@ -163,109 +139,81 @@ def ago(when, now):
         return "yesterday"
     if days < 14:
         return f"{days} days ago"
-    if days < 60:
-        return f"{days // 7} weeks ago"
-    return f"{days // 30} months ago"
-
-
-def fit(T, text, face, size, max_w, min_size=14):
-    while size > min_size and T.width(text, face, size) > max_w:
-        size -= 1
-    while T.width(text, face, size) > max_w and len(text) > 2:
-        text = text[:-2] + "\u2026"
-    return text, size
+    return f"{days // 7} weeks ago" if days < 60 else f"{days // 30} months ago"
 
 
 def draw(m, push, now):
     T = Typesetter()
-    x0, top, x1, base = PLOT
-    h = base - top
+    W, H = 1200, 440
+    X0, YT, X1, YB = 90, 136, 846, 360
     weekly, smooth = m["weekly"], savitzky_golay(m["weekly"])
     vmax = nice_ceiling(max(weekly + [1]))
-    to_y = lambda v: base - math.sqrt(max(v, 0) / vmax) * h
-    step = (x1 - x0) / WEEKS
-    to_x = lambda i: x0 + (i + 0.5) * step
-    out = [f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="18" '
-           f'fill="{INK["midnight"]}" stroke="{INK["edge"]}"/>']
+    to_y = lambda v: YB - math.sqrt(max(v, 0) / vmax) * (YB - YT)
+    step = (X1 - X0) / WEEKS
+    to_x = lambda i: X0 + (i + 0.5) * step
+    out = [panel(W, H),
+           T.text("GitHub activity", 48, 70, "un", 28, INK["text"]),
+           T.text(f"last 52 weeks, redrawn {now.day} {now:%b %Y}", 49, 100, "mo", 14, INK["muted"])]
 
-    out.append(T.text("Contribution spectrum", 56, 70, "rm", 30, INK["paper"]))
-    out.append(T.text("Weekly contributions over the last 52 weeks, smoothed with a Savitzky-Golay filter",
-                      57, 99, "it", 18, INK["graphite"]))
-    out.append(T.text(f"redrawn {now.day} {now:%B %Y}", TABLE_X[1], 70, "it", 17, INK["graphite"], anchor="end"))
-
-    # Square-root axis: quiet weeks stay visible next to busy ones
-    ticks, last_y = [], None
+    # Square-root axis, so quiet weeks stay visible next to busy ones
+    ticks, last = [], None
     for v in [vmax] + [c for c in (500, 200, 100, 50, 20, 10, 5, 2, 1) if c < vmax] + [0]:
         y = to_y(v)
-        if last_y is None or y - last_y >= 30 or v == 0:
+        if last is None or y - last >= 30 or v == 0:
             if v == 0 and ticks and y - to_y(ticks[-1]) < 30:
                 ticks.pop()
             ticks.append(v)
-            last_y = y
+            last = y
     for v in ticks:
         y = to_y(v)
         if v:
-            out.append(f'<line x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}" stroke="{INK["grid"]}" stroke-width="1"/>')
-        out.append(T.text(str(v), x0 - 14, y + 5, "rm", 16, INK["graphite"], anchor="end"))
-    out.append(f'<line x1="{x0}" y1="{base}" x2="{x1}" y2="{base}" stroke="{INK["rule"]}" stroke-width="1"/>')
-
-    # Months along the bottom
+            out.append(f'<line x1="{X0}" y1="{y:.1f}" x2="{X1}" y2="{y:.1f}" stroke="{INK["grid"]}"/>')
+        out.append(T.text(str(v), X0 - 14, y + 4, "mo", 12, INK["dim"], anchor="end"))
+    out.append(f'<line x1="{X0}" y1="{YB}" x2="{X1}" y2="{YB}" stroke="{INK["edge"]}" stroke-width="1.5"/>')
     for i in range(WEEKS):
         week = m["start"] + dt.timedelta(weeks=i)
         firsts = [week + dt.timedelta(days=k) for k in range(7) if (week + dt.timedelta(days=k)).day == 1]
-        if firsts and to_x(i) > x0 + 10:
-            label = firsts[0].strftime("%b %Y" if firsts[0].month == 1 else "%b")
-            out.append(T.text(label, to_x(i), base + 27, "rm", 16, INK["graphite"], anchor="middle"))
+        if firsts and to_x(i) > X0 + 10:
+            out.append(T.text(firsts[0].strftime("%b"), to_x(i), YB + 26, "mo", 12, INK["dim"], anchor="middle"))
 
-    # Raw weekly counts as sticks, smoothed curve and its shadow on top
     for i, v in enumerate(weekly):
         if v:
-            out.append(f'<line x1="{to_x(i):.1f}" y1="{base}" x2="{to_x(i):.1f}" y2="{to_y(v):.1f}" '
-                       f'stroke="{INK["paper"]}" stroke-opacity="0.45" stroke-width="2.2" stroke-linecap="round"/>')
-    pts = [(to_x(i), to_y(v)) for i, v in enumerate(smooth)]
-    curve = smooth_path(pts, base, top)
-    out.append(f'<path d="{curve} L{pts[-1][0]:.1f} {base} L{pts[0][0]:.1f} {base} Z" fill="url(#shade)"/>')
-    out.append(f'<path d="{curve}" fill="none" stroke="{INK["signal"]}" stroke-width="2.4" stroke-linejoin="round"/>')
-
+            top = to_y(v)
+            out.append(f'<rect x="{to_x(i) - 3.6:.1f}" y="{top:.1f}" width="7.2" height="{YB - top:.1f}" '
+                       f'rx="3.6" fill="{ramp(math.sqrt(v / vmax))}"/>')
+    curve = smooth_path([(to_x(i), to_y(v)) for i, v in enumerate(smooth)], YB, YT)
+    out.append(f'<path d="{curve}" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="7" filter="url(#blur)"/>')
+    out.append(f'<path d="{curve}" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round"/>')
     peak = max(range(WEEKS), key=lambda i: weekly[i])
     if weekly[peak]:
-        px = min(max(to_x(peak), x0 + 12), x1 - 12)
-        out.append(T.text(str(weekly[peak]), px, to_y(weekly[peak]) - 10, "rm", 17, INK["paper"], anchor="middle"))
+        px = min(max(to_x(peak), X0 + 14), X1 - 14)
+        out.append(T.text(str(weekly[peak]), px, to_y(weekly[peak]) - 12, "mb", 14, INK["text"], anchor="middle"))
 
-    # Measurements
-    rows = [("contributions", f"{m['total']:,}"),
-            ("active days", f"{m['active']}"),
-            ("longest streak", f"{m['longest']} day" + ("s" if m["longest"] != 1 else "")),
-            ("busiest day", " & ".join(d[:3] for d in m["busiest"]) if len(m["busiest"]) > 1
-             else (m["busiest"][0] if m["busiest"] else "none yet"))]
+    busiest = "/".join(d[:3] for d in m["busiest"]) or "none"
+    cells = [(f"{m['total']:,}", "contributions"), (str(m["active"]), "active days"),
+             (str(m["longest"]), "day best streak"), (busiest, "busiest day")]
+    for (value, label), (cx, cy) in zip(cells, [(892, 184), (1040, 184), (892, 282), (1040, 282)]):
+        value, size = fit(T, value, "un", 38, 138, 20)
+        out.append(T.text(value, cx, cy, "un", size, "url(#num)"))
+        out.append(T.text(label, cx + 1, cy + 26, "mo", 13, INK["muted"]))
     if push:
-        repo, when = push
-        rows += [("latest push", repo), ("pushed", ago(when, now))]
-    y = 158 if len(rows) > 4 else 186
-    for key, value in rows:
-        key_w = T.width(key, "it", 18)
-        value, size = fit(T, value, "rm", 24, TABLE_X[1] - TABLE_X[0] - key_w - 16)
-        out.append(T.text(key, TABLE_X[0], y, "it", 18, INK["graphite"]))
-        out.append(T.text(value, TABLE_X[1], y, "rm", size, INK["paper"], anchor="end"))
-        y += 36
+        note, size = fit(T, f"last push: {push[0]}, {ago(push[1], now)}", "mo", 13, 272, 10)
+        out.append(T.text(note, 893, 350, "mo", size, INK["muted"]))
 
-    defs = (f'<linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">'
-            f'<stop offset="0" stop-color="{INK["signal"]}" stop-opacity="0.22"/>'
-            f'<stop offset="1" stop-color="{INK["signal"]}" stop-opacity="0"/></linearGradient>' + T.defs())
-    desc = (f"Weekly GitHub contributions over the last 52 weeks, with a smoothed curve. "
-            f"{m['total']} contributions on {m['active']} days; longest streak {m['longest']} days.")
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
-            f'width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="title desc">'
-            f'<title id="title">Contribution spectrum</title><desc id="desc">{desc}</desc>'
-            f'<defs>{defs}</defs>{"".join(out)}</svg>\n')
+    defs = ('<linearGradient id="num" x1="0" y1="0" x2="0" y2="1">'
+            '<stop offset="0" stop-color="#F43F5E"/><stop offset="1" stop-color="#FDE047"/></linearGradient>'
+            '<filter id="blur" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>'
+            + T.defs())
+    desc = (f"Weekly GitHub contributions over the last 52 weeks with a smoothed trend line. "
+            f"{m['total']} contributions on {m['active']} days, best streak {m['longest']} days.")
+    return svg(W, H, "".join(out), defs, title="GitHub activity", desc=desc)
 
 
 def main():
-    with open(os.path.join(HERE, "identity.json"), encoding="utf-8") as fh:
+    with open(os.path.join(HERE, "profile.json"), encoding="utf-8") as fh:
         user = json.load(fh)["username"]
     token = os.environ.get("GITHUB_TOKEN", "").strip()
     now = dt.datetime.now(dt.timezone.utc)
-
     days = None
     sources = ([("GraphQL API", lambda: calendar_graphql(user, token))] if token else []) + \
               [("calendar page", lambda: calendar_html(user))]
@@ -279,18 +227,12 @@ def main():
     if not days:
         print("No contribution data; keeping the current figure.", file=sys.stderr)
         return
-
     try:
         push = latest_push(user, token)
     except Exception as exc:
         print(f"latest push: skipped ({exc})", file=sys.stderr)
         push = None
-
-    svg = draw(measure(days, now.date()), push, now)
-    os.makedirs(os.path.dirname(DEST), exist_ok=True)
-    with open(DEST, "w", encoding="utf-8") as fh:
-        fh.write(svg)
-    print(f"activity.svg written ({len(svg.encode()) / 1024:.1f} KB)")
+    write("activity.svg", draw(measure(days, now.date()), push, now))
 
 
 if __name__ == "__main__":
